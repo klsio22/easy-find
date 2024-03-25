@@ -12,8 +12,6 @@ EasyFind é uma aplicação web desenvolvida para proporcionar uma plataforma de
 - Navegação simplificada e direcionada.
 - Facilidade de acesso a trechos desejados.
   
-Aqui está o trecho melhorado e convertido para Markdown:
-
 ## Como Rodar o Projeto
 
 ### Servidor de Desenvolvimento
