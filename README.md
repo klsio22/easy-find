@@ -64,3 +64,7 @@ Para obter mais ajuda sobre o Angular CLI, use `ng help` ou consulte a [Visão G
 
 ### Checklist
 Confira o checklist do projeto EasyFind no Notion: [Checklist](https://indigo-hisser-408.notion.site/Project-easy-find-9ceba5246d674405a4b1b9d4cb3b1525?pvs=4)
+
+## Prototipação
+
+Aqui está o link para a prototipação do projeto: [Figma - Easy Find](https://www.figma.com/file/EPWA3CYyUHSIVgxi9xkkeh/Easy-Find?type=design&node-id=73%3A713&mode=design&t=uAGuXnuyxZCCCS0C-1).
