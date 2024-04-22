@@ -27,7 +27,7 @@ Após executar o comando, você poderá acessar a aplicação em `http://localho
 Você também pode usar os seguintes comandos alternativos:
 
 ```
-yarn start
+yarn dev
 npm start
 ```
 
