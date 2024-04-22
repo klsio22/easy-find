@@ -1,25 +1,28 @@
 <div class="flex justify-center items-center h-screen">
   <div class="bg-neon-carrot p-8 rounded-md shadow-md w-full max-w-md flex h-full justify-center flex-col md:h-[85%]">
-    <h2 class="text-2xl font-bold mb-6 text-center text-white">Bem-Vindo de Volta!</h2>
-    <form [formGroup]="loginForm" class="space-y-4 w-full">
-      <div class="">
-        <label for="email" class="block font-medium mb-1 opacity-0 text-[0]">Email</label>
+    <h2 class="text-2xl font-bold mb-6 text-center text-white">Cadastre-se Agora!</h2>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-4">
+      <div>
+        <label for="email" class="block font-medium mb-1 text-white opacity-0 text-[0]">E-mail</label>
         <input type="email" id="email" formControlName="email" placeholder="E-mail"
           class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring focus:ring-[#A28DFF]">
       </div>
-      <div class="">
-        <label for="password" class="block font-medium mb-1 opacity-0 text-[0]">password</label>
+      <div>
+        <label for="password" class="block font-medium mb-1 text-white opacity-0 text-[0]">Senha</label>
         <input type="password" id="password" formControlName="password" placeholder="Senha"
-          class=" w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring focus:ring-[#A28DFF]">
+          class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring focus:ring-[#A28DFF]">
+      </div>
+      <div>
+        <label for="confirmPassword" class="block font-medium mb-1 text-white opacity-0 text-[0]">Confirmar Senha</label>
+        <input type="password" id="confirmPassword" formControlName="confirmPassword" placeholder="Confirmar Senha"
+          class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring focus:ring-[#A28DFF]">
       </div>
       <button type="submit"
-        class="w-full bg-[#FACC15] font-bold py-2 px-4 rounded-md hover:bg-[#8F72E8] focus:outline-none focus:ring focus:ring-[#A28DFF] text-[#393939] ">Entrar</button>
+        class="w-full bg-[#A28DFF] text-white font-bold py-2 px-4 rounded-md hover:bg-[#8F72E8] focus:outline-none focus:ring focus:ring-[#A28DFF]">Cadastrar-se</button>
     </form>
     <div class="mt-4 text-center text-white">
-      <p class="text-sm">Esqueceu sua senha?</p>
-      <p class="text-sm mt-2">Não tem uma conta? <a href="#"
-          class="hover:underline text-[#6C1EBB] font-semibold underline">Cadastrar-se</a>
-      </p>
+      <p class="text-sm">Já tem uma conta? <a href="#" class="text-[#6C1EBB] font-medium hover:underline">Fazer
+          Login</a></p>
     </div>
     <div class="mt-4 text-center flex justify-center">
       <button
@@ -40,12 +43,8 @@
               fill="#EB4335" />
           </svg>
         </span>
-
-        Login com Google
+        <span>Login com Google</span>
       </button>
-    </div>
-    <div class="flex justify-center my-5 ">
-      <a href="" class="text-white">Entrar sem uma conta</a>
     </div>
   </div>
 </div>
