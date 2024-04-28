@@ -5,8 +5,8 @@ import { RegisterComponent } from './components/pages/register/register.componen
 import { NotFoundPageComponent } from './components/pages/not-found-page/not-found-page.component';
 
 export const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: 'register', component: RegisterComponent},
   { path: '', component: LoginComponent},
+  { path: 'register', component: RegisterComponent},
+  { path: 'home', component: HomeComponent },
   { path: '**', component: NotFoundPageComponent }
 ];
