@@ -1,0 +1,42 @@
+<!-- user-profile.component.html -->
+<div *ngIf="!editMode" class="flex flex-col items-center rounded-lg shadow-md max-w-md mx-auto h-screen">
+  <div class="bg-neon-carrot rounded-lg shadow-md p-6 h-full">
+    <div class="flex items-center justify-between mb-4 flex-col h-full">
+      <div class="flex items-center flex-col gap-3 text-white">
+        <img src="https://via.placeholder.com/96" alt="User Avatar" class="rounded-full w-24 h-24">
+        <div class="">
+          <h2 class="text-2xl font-bold text-center">{{ userName }}</h2>
+          <div>
+            <p>Telefone: {{ userPhone }}</p>
+            <p>Bio:{{ userBio }}</p>
+          </div>
+
+        </div>
+      </div>
+      <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" (click)="editProfile()">
+        Editar Perfil
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="editMode" class="flex flex-col items-center rounded-lg shadow-md p-6 max-w-md mx-auto h-full">
+  <div class="bg-neon-carrot rounded-lg shadow-md p-6 w-full">
+    <div class="flex flex-col">
+      <label for="username" class="text-gray-600 font-medium mb-2">Nome de Usuário:</label>
+      <input [(ngModel)]="userName" type="text" id="username" class="border rounded-md px-3 py-2 mb-4">
+
+      <label for="phone" class="text-gray-600 font-medium mb-2">Telefone:</label>
+      <input [(ngModel)]="userPhone" type="tel" id="phone" class="border rounded-md px-3 py-2 mb-4">
+
+      <label for="bio" class="text-gray-600 font-medium mb-2">Bio:</label>
+      <textarea [(ngModel)]="userBio" id="bio" rows="3" class="border rounded-md px-3 py-2 mb-4"></textarea>
+
+      <div class="flex justify-end">
+        <button (click)="saveProfile()" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+          Salvar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
