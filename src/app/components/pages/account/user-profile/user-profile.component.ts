@@ -1,29 +1,44 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
+import { Router } from '@angular/router';
 
 
 @Component({
   selector: 'app-user-profile',
   standalone: true,
-  imports: [FormsModule,NgIf],
+  imports: [FormsModule, NgIf],
   templateUrl: './user-profile.component.html',
 })
 export class UserProfileComponent {
-  userName = 'Seu Nome';
-  userPhone = '(67) 91956-2919';
-  userBio = `Olá! Meu nome é ${this.userName} e sou um entusiasta da tecnologia apaixonado por desenvolvimento web e design de interfaces. Atualmente, estou cursando Engenharia de Computação na Universidade Federal de São Paulo (UNIFESP) e buscando oportunidades para aprimorar minhas habilidades e conhecimentos na área.`;
-  editMode: boolean = false;
+  @Input() userName: string;
+  @Input() userPhone: string;
+  @Input() userBio: string;
+  @Input() editMode: boolean = false;
+  @Output() newName = new EventEmitter<string>();
+
+  constructor(private router: Router) {
+    this.userName = 'João Silva';
+    this.userPhone = '555-555-5555';
+    this.userBio =
+      'João Silva nasceu em uma pequena aldeia no coração de Portugal. Desde criança, ele demonstrava uma curiosidade insaciável pelo mundo e uma paixão por explorar novos horizontes. Seus olhos brilhavam quando ouvia histórias de marinheiros e aventureiros que desbravavam os mares em busca de tesouros e conhecimento.';
+    this.newName.emit(this.userName);
+  }
 
   toggleEditMode() {
     this.editMode = !this.editMode;
   }
 
-  saveProfile() {
+  saveProfile(name: string) {
     this.editMode = false;
+    this.newName.emit(name);
   }
 
   editProfile() {
-   this.toggleEditMode();
+    this.toggleEditMode();
+  }
+
+  navigateToAccountProfile() {
+    this.router.navigate(['/profile', this.userName]);
   }
 }

@@ -11,8 +11,10 @@ export const routes: Routes = [
   { path: '', component: LoginComponent},
   { path: 'register', component: RegisterComponent},
   { path: 'home', component: HomeComponent },
-  { path: 'account', component: AccountProfileComponent },
+  { path: 'account', component: AccountProfileComponent},
+  { path: 'account/:userName', component: AccountProfileComponent},
   { path: 'authentication', component: AuthenticationComponent },
+  { path: 'profile', component: UserProfileComponent },
   { path: 'profile', component: UserProfileComponent },
   { path: '**', component: NotFoundPageComponent }
 ];
