@@ -13,12 +13,11 @@ module.exports = {
       colors: {
         pantone: '#5b4349',
         stone: '#202024',
-        orange: '#fv923c',
         'medium-purple': '#c4c4cc',
         turbo: '#facc15',
         malibu: '#54c1E9',
         'space-shuttle': '#44403c',
-        'neon-carrot': '#Fb923c',
+        'neon-carrot': '#fb923c',
       },
 
       extend: {
