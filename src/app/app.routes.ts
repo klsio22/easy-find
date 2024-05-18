@@ -15,6 +15,6 @@ export const routes: Routes = [
   { path: 'account/:userName', component: AccountProfileComponent},
   { path: 'authentication', component: AuthenticationComponent },
   { path: 'profile', component: UserProfileComponent },
-  { path: 'profile', component: UserProfileComponent },
+
   { path: '**', component: NotFoundPageComponent }
 ];
