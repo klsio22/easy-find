@@ -1,0 +1,39 @@
+<div class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" aria-modal="true">
+  <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true" onKeyPress=""
+      onKeyDown="" onKeyUp=""></div>
+    <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+    <div
+      class="flex flex-col justify-center items-center gap-3 align-bottom bg-neon-carrot  rounded-3xl px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+      <div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4 flex flex-col gap-5">
+        <div class="flex justify-between items-start">
+          <h3 class="text-lg leading-6 text-light-900 text-3xl font-bold" id="modal-title">Novo E-Mail</h3>
+
+          <span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#5a5858" viewBox="0 0 256 256">
+              <path
+                d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z">
+              </path>
+            </svg>
+          </span>
+        </div>
+
+        <div class="mt-2 flex flex-col gap-2">
+          <label for="email" class="text-dark-900">Novo E-Mail</label>
+          <input type="text" placeholder="Novo E-Mail" [(ngModel)]="newEmail"
+            class="w-full p-2 border border-gray-300 rounded mt-2" id="email">
+          <label for="senha-atual" class="text-dark-800">Senha Atual</label>
+          <input type="password" placeholder="Senha Atual" [(ngModel)]="currentPassword"
+            class="w-full p-2 border border-gray-300 rounded mt-2" id="senha-atual">
+          <p class="mt-1 text-sm text-gray-500">Senha necessária para autenticação</p>
+        </div>
+      </div>
+      <div class="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+        <button type="button"
+          class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-[#F97068] text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2  sm:ml-3 sm:w-auto sm:text-sm">
+          Salvar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

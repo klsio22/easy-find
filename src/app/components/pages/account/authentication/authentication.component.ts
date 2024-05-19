@@ -1,27 +1,33 @@
-import { Component, Input, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { PenComponent } from '../../../../../assets/pen/pen.component';
 import { BackPreviousScreenComponent } from '../../../back-previous-screen/back-previous-screen.component';
-import { FormsModule } from '@angular/forms';
+import { ModalEditionComponent } from './modal-edition/modal-edition.component';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-authentication',
   standalone: true,
-  imports: [PenComponent, BackPreviousScreenComponent, FormsModule,CommonModule],
+  imports: [
+    PenComponent,
+    BackPreviousScreenComponent,
+    ModalEditionComponent,
+    CommonModule,
+    FormsModule,
+  ],
   templateUrl: './authentication.component.html',
 })
 export class AuthenticationComponent {
   email: string = 'joaodasilva@gmail.com';
   newEmail: string = '';
   currentPassword: string = '';
-  isModalOpen: boolean = false;
+  showModal = false;
 
   openModal() {
-    this.isModalOpen = true;
-    console.log(this.isModalOpen);
+    this.showModal = true;
   }
 
-  closeModal() {
-    this.isModalOpen = false;
+  closeModalAuth() {
+    this.showModal = false;
   }
 }
