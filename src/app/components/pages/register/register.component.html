@@ -6,19 +6,49 @@
         <label for="email" class="block font-medium mb-1 text-white opacity-0 text-[0]">E-mail</label>
         <input type="email" id="email" formControlName="email" placeholder="E-mail"
           class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring focus:ring-[#A28DFF]">
+        <div
+          *ngIf="registerForm.get('email')?.invalid && (registerForm.get('email')?.dirty || registerForm.get('email')?.touched)">
+          <div *ngIf="registerForm.get('email')?.errors?.['required']" class="text-stone text-sm">O email é
+            obrigatório.
+          </div>
+          <div *ngIf="registerForm.get('email')?.errors?.['email']" class="text-stone text-sm">O email deve ser
+            válido.
+          </div>
+        </div>
       </div>
       <div>
         <label for="password" class="block font-medium mb-1 text-white opacity-0 text-[0]">Senha</label>
         <input type="password" id="password" formControlName="password" placeholder="Senha"
           class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring focus:ring-[#A28DFF]">
+        <div
+          *ngIf="registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)">
+          <div *ngIf="registerForm.get('password')?.errors?.['required']" class="text-stone text-sm">A senha é
+            obrigatória.
+          </div>
+          <div *ngIf="registerForm.get('password')?.errors?.['minlength']" class="text-stone text-sm">A senha deve ter
+            pelo menos 6 caracteres.</div>
+        </div>
       </div>
       <div>
-        <label for="confirmPassword" class="block font-medium mb-1 text-white opacity-0 text-[0]">Confirmar Senha</label>
+        <label for="confirmPassword" class="block font-medium mb-1 text-white opacity-0 text-[0]">Confirmar
+          Senha</label>
         <input type="password" id="confirmPassword" formControlName="confirmPassword" placeholder="Confirmar Senha"
           class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring focus:ring-[#A28DFF]">
+        <div
+          *ngIf="registerForm.get('confirmPassword')?.invalid && (registerForm.get('confirmPassword')?.dirty || registerForm.get('confirmPassword')?.touched)">
+          <div *ngIf="registerForm.get('confirmPassword')?.errors?.['required']" class="text-stone text-sm">A
+            confirmação
+            de senha é obrigatória.</div>
+          <div *ngIf="registerForm.get('confirmPassword')?.errors?.['passwordMatch']" class="text-stone text-sm">As
+            senhas
+            devem ser iguais.</div>
+        </div>
       </div>
       <button type="submit"
-        class="w-full bg-[#A28DFF] text-white font-bold py-2 px-4 rounded-md hover:bg-[#8F72E8] focus:outline-none focus:ring focus:ring-[#A28DFF]">Cadastrar-se</button>
+        [class]="registerForm.invalid ? 'w-full bg-gray-400 text-gray-200 font-bold py-2 px-4 rounded-md cursor-not-allowed' : 'w-full bg-[#A28DFF] text-white font-bold py-2 px-4 rounded-md hover:bg-[#8F72E8] focus:outline-none focus:ring focus:ring-[#A28DFF]'"
+        [disabled]="registerForm.invalid">
+        Cadastrar-se
+      </button>
     </form>
     <div class="mt-4 text-center text-white">
       <p class="text-sm">Já tem uma conta? <a href="/" class="text-[#6C1EBB] font-medium hover:underline">Fazer
