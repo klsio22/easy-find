@@ -21,13 +21,13 @@ export class AuthenticationComponent {
   email: string = 'joaodasilva@gmail.com';
   newEmail: string = '';
   currentPassword: string = '';
-  showModal = false;
+  isModalOpen = false;
 
   openModal() {
-    this.showModal = true;
+    this.isModalOpen = true;
   }
 
-  closeModalAuth() {
-    this.showModal = false;
+  closeModal() {
+    this.isModalOpen = false;
   }
 }

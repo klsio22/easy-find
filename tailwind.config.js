@@ -18,6 +18,7 @@ module.exports = {
         malibu: '#54c1E9',
         'space-shuttle': '#44403c',
         'neon-carrot': '#fb923c',
+        'clear-Turquoise': '#6AADAE',
       },
 
       extend: {
@@ -27,5 +28,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require('daisyui')],
 };

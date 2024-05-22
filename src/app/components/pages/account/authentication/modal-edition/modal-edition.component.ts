@@ -9,7 +9,6 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './modal-edition.component.html',
 })
 export class ModalEditionComponent {
-  @Input() isModalOpen: boolean = false;
   @Input() newEmail: string = '';
   @Input() currentPassword: string = '';
 }

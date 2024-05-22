@@ -1,10 +1,7 @@
-<div class="flex flex-col items-center rounded-lg shadow-md max-w-md mx-auto h-screen " *ngIf="!showModal"
-  (close)="closeModalAuth()">
+<div class="flex flex-col items-center rounded-lg shadow-md max-w-md mx-auto h-screen">
   <div class="bg-neon-carrot shadow-md p-6 h-full text-white w-full">
     <app-back-previous-screen [link]="'/account'" [title]="'Configurações'"></app-back-previous-screen>
 
-    <app-modal-edition [newEmail]="newEmail" [currentPassword]="currentPassword">
-    </app-modal-edition>
 
     <div class="flex items-center justify-between mb-4 mt-12">
       <div class="flex items-center">
@@ -20,9 +17,11 @@
           <p>{{email}}</p>
         </div>
       </div>
-      <span (click)="openModal()" onKeyPress="" onKeyDown="" onKeyUp="">
+      <button onclick="my_modal_3.showModal()">
+
         <app-pen></app-pen>
-      </span>
+      </button>
+
     </div>
 
     <div class="flex items-center justify-between">
@@ -41,6 +40,21 @@
         <app-pen></app-pen>
       </span>
     </div>
+
+
+
+    <app-modal-edition [newEmail]="newEmail" [currentPassword]="currentPassword">
+  </app-modal-edition>
+<!--
+    <dialog id="my_modal_3" class="modal">
+      <div class="modal-box">
+        <form method="dialog">
+          <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        </form>
+        <h3 class="font-bold text-lg">Hello!</h3>
+        <p class="py-4">Press ESC key or click on ✕ button to close</p>
+      </div>
+    </dialog> -->
 
   </div>
 </div>
