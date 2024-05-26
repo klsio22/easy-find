@@ -1,19 +1,8 @@
 <!-- user-profile.component.html -->
 <div *ngIf="!editMode" class="flex flex-col items-center rounded-lg shadow-md max-w-md mx-auto h-screen">
   <div class="bg-neon-carrot shadow-md p-6 h-full text-white">
-    <div>
-      <a href="/account" class="flex items-center"> <span>
-          <svg width="24" height="31" viewBox="0 0 24 31" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" clip-rule="evenodd"
-              d="M10.2823 3.27933C10.3522 3.36764 10.4076 3.47256 10.4454 3.58807C10.4832 3.70358 10.5027 3.82741 10.5027 3.95247C10.5027 4.07753 10.4832 4.20136 10.4454 4.31687C10.4076 4.43238 10.3522 4.5373 10.2823 4.62562L1.81184 15.3618L10.2823 26.0979C10.4232 26.2764 10.5023 26.5186 10.5023 26.7711C10.5023 27.0235 10.4232 27.2657 10.2823 27.4442C10.1415 27.6227 9.9505 27.723 9.75134 27.723C9.55218 27.723 9.36117 27.6227 9.22034 27.4442L0.22034 16.0349C0.150495 15.9466 0.0950809 15.8417 0.0572712 15.7262C0.0194616 15.6107 0 15.4868 0 15.3618C0 15.2367 0.0194616 15.1129 0.0572712 14.9974C0.0950809 14.8819 0.150495 14.7769 0.22034 14.6886L9.22034 3.27933C9.29001 3.19078 9.37277 3.12053 9.46389 3.0726C9.55501 3.02467 9.65269 3 9.75134 3C9.84999 3 9.94767 3.02467 10.0388 3.0726C10.1299 3.12053 10.2127 3.19078 10.2823 3.27933Z"
-              fill="#EDF2EF" />
-          </svg>
-        </span>
-        <span>Meus Dados Pessoais</span>
-      </a>
-    </div>
-    <div class="flex items-center justify-between mb-4 flex-col h-full py-6">
-
+    <app-back-previous-screen [link]="'/account'" [title]="'Meus dados pessoais'"></app-back-previous-screen>
+    <div class="flex items-center justify-between h-4/5 mb-4 flex-col py-6">
       <div class="flex items-center flex-col h-full">
         <div class="flex flex-col items-center mb-10">
             <svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" fill="#4f4f4f" viewBox="0 0 256 256">
@@ -42,7 +31,8 @@
 
 <div *ngIf="editMode" class="flex flex-col items-center rounded-lg shadow-md max-w-md mx-auto h-screen">
   <div class="bg-neon-carrot shadow-md p-6 h-full w-full">
-    <div class="flex flex-col">
+    <app-back-previous-screen [link]="'/account'" [title]="'Meus dados pessoais'"></app-back-previous-screen>
+    <div class="flex flex-col mt-4">
       <label for="username" class="text-gray-600 font-medium mb-2">Nome de Usuário:</label>
       <input [(ngModel)]="userName" type="text" id="username" class="border rounded-md px-3 py-2 mb-4">
 
@@ -52,8 +42,8 @@
       <label for="bio" class="text-gray-600 font-medium mb-2">Bio:</label>
       <textarea [(ngModel)]="userBio" id="bio" rows="12" class="border rounded-md px-3 py-2 mb-4"></textarea>
 
-      <div class="flex justify-end ">
-        <button (click)="saveProfile(userName)" class="bg-purple-400 hover:bg-purple-600 text-white font-bold py-2 px-4
+      <div class="flex justify-end mt-6">
+        <button (click)="saveProfile()" class="bg-purple-400 hover:bg-purple-600 text-white font-bold py-2 px-4
          rounded-md w-full">
           Salvar
         </button>

@@ -38,6 +38,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+body {
+  background-color: #6aadae;
+}
+
 h1 {
   font-size: 3.125rem;
   color: var(--gray-900);
@@ -50,9 +54,11 @@ h1 {
     'Segoe UI Symbol';
 }
 
-p {
+p,
+span,
+label {
   margin: 0;
-  color: var(--gray-700);
+  color: #ffffff;
 }
 
 main {
@@ -64,6 +70,11 @@ main {
   padding: 1rem;
   box-sizing: inherit;
   position: relative;
+}
+
+input,
+textarea {
+  background-color: #ffffff;
 }
 
 .angular-logo {
