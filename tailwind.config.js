@@ -19,6 +19,7 @@ module.exports = {
         'space-shuttle': '#44403c',
         'neon-carrot': '#fb923c',
         'clear-Turquoise': '#6AADAE',
+        gray: 'EDF2EF',
       },
 
       extend: {
