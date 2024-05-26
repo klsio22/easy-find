@@ -9,6 +9,7 @@ import {
   AbstractControl,
   ValidationErrors,
 } from '@angular/forms';
+import { Auth } from '@angular/fire/auth';
 
 interface RegisterData {
   email: string;
@@ -24,7 +25,7 @@ interface RegisterData {
 export class RegisterComponent {
   protected registerForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private router: Router,private afAuth: Auth ) {
     this.registerForm = this.formBuilder.group(
       {
         email: ['', [Validators.required, Validators.email]],
