@@ -54,7 +54,7 @@ export class RegisterComponent {
     );
   }
 
-  protected onSubmit() {
+  async onSubmit() {
     if (this.registerForm.valid) {
       const { email, password, confirmPassword } = this.registerForm.value;
 
