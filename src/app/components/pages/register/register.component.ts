@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   FormBuilder,
@@ -9,7 +9,11 @@ import {
   AbstractControl,
   ValidationErrors,
 } from '@angular/forms';
-import { Auth } from '@angular/fire/auth';
+import { FirebaseService } from '../../../services/firebase.service';
+import { Firestore } from '@angular/fire/firestore';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 
 interface RegisterData {
   email: string;
@@ -19,13 +23,25 @@ interface RegisterData {
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule],
+  imports: [
+    ReactiveFormsModule,
+    CommonModule,
+    AngularFireAuthModule,
+    AngularFireDatabaseModule,
+    AngularFirestoreModule,
+  ],
   templateUrl: './register.component.html',
 })
 export class RegisterComponent {
+  firestore: Firestore = inject(Firestore);
+
   protected registerForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private router: Router,private afAuth: Auth ) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private firebaseService: FirebaseService,
+  ) {
     this.registerForm = this.formBuilder.group(
       {
         email: ['', [Validators.required, Validators.email]],
@@ -40,9 +56,21 @@ export class RegisterComponent {
 
   protected onSubmit() {
     if (this.registerForm.valid) {
-      this.saveToStorage(this.registerForm.value);
-      this.router.navigate(['/home']);
-      console.log('Form data:', this.registerForm.value);
+      const { email, password, confirmPassword } = this.registerForm.value;
+
+      if (password !== confirmPassword) {
+        alert('Passwords do not match!');
+        return;
+      }
+
+      this.firebaseService.registerUser(email, password, {}).subscribe({
+        next: () => {
+          this.router.navigate(['/home']);
+        },
+        error: (error) => {
+          console.error('Error registering user:', error);
+        },
+      });
     }
   }
 
