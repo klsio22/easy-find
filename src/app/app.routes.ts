@@ -8,9 +8,9 @@ import { AuthenticationComponent } from './components/pages/account/authenticati
 import { AccountProfileComponent } from './components/pages/account/account-profile/account-profile.component';
 
 export const routes: Routes = [
-  { path: '', component: LoginComponent},
+  { path: 'login', component: LoginComponent},
   { path: 'register', component: RegisterComponent},
-  { path: 'home', component: HomeComponent },
+  { path: '', component: HomeComponent },
   { path: 'account', component: AccountProfileComponent},
   { path: 'account/:userName', component: AccountProfileComponent},
   { path: 'authentication', component: AuthenticationComponent },
