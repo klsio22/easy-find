@@ -8,11 +8,10 @@ import { AuthenticationComponent } from './components/pages/account/authenticati
 import { AccountProfileComponent } from './components/pages/account/account-profile/account-profile.component';
 
 export const routes: Routes = [
-  { path: 'login', component: LoginComponent},
+  { path: '', component: LoginComponent},
   { path: 'register', component: RegisterComponent},
-  { path: '', component: HomeComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'account', component: AccountProfileComponent},
-  { path: 'account/:userName', component: AccountProfileComponent},
   { path: 'authentication', component: AuthenticationComponent },
   { path: 'profile', component: UserProfileComponent },
 
