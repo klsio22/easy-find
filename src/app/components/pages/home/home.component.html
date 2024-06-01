@@ -1,7 +1,43 @@
-<app-header></app-header>
+<div class="flex justify-center items-center h-screen w-full">
+  <div class="bg-white p-6 rounded-md shadow-md w-full max-w-md flex h-full justify-between flex-col md:h-[85%]">
+    <div class="flex justify-between items-center pb-4">
+      <div class="flex items-center  md:hidden lg:hidden">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </div>
+      <div class="flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <circle cx="12" cy="12" r="11" stroke-width="2" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 14c-3.866 0-7 3.134-7 7h14c0-3.866-3.134-7-7-7zm0-10a5 5 0 100 10 5 5 0 000-10z" />
+        </svg>
+      </div>
+    </div>
+    <div class="flex flex-col items-center justify-center">
+      <div class="w-full h-64 bg-gray-200 rounded-md border-black border-2 flex items-center justify-center">
+        <span class="text-black">PDF vai aqui</span>
+      </div>
+    </div>
+    <div class="flex flex-col justify-center p-4 text-white bg-violet-400 border rounded border-violet-400">
+      <p>Resultados da Busca: "Data Types"</p>
+      <p>Capítulo 1:</p>
+      <ul class="list-disc ml-5">
+        <li class="text-white">Página: 42</li>
+        <li class="text-white">Contexto: O que são Data types no java</li>
+      </ul>
+    </div>
+    <div class="flex justify-center mt-4">
+      <div class="flex items-center bg-yellow-400 rounded p-3 w-11/12">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-slate-600" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M21 21l-4.35-4.35m0 0a7 7 0 111.4-1.4l4.35 4.35z" />
+        </svg>
+        <input type="text" placeholder="Digite sua busca"
+          class="bg-yellow-400 outline-none text-slate-600 ml-2 w-full" />
+      </div>
+    </div>
 
-<main class="main">
-  <div class="content text-xl">
-    home
   </div>
-</main>
+</div>

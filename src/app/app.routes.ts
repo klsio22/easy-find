@@ -12,7 +12,6 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent},
   { path: 'home', component: HomeComponent },
   { path: 'account', component: AccountProfileComponent},
-  { path: 'account/:userName', component: AccountProfileComponent},
   { path: 'authentication', component: AuthenticationComponent },
   { path: 'profile', component: UserProfileComponent },
 
