@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   FormBuilder,
@@ -10,7 +10,6 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { FirebaseService } from '../../../services/firebase.service';
-import { Firestore } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
@@ -33,8 +32,6 @@ interface RegisterData {
   templateUrl: './register.component.html',
 })
 export class RegisterComponent {
-  firestore: Firestore = inject(Firestore);
-
   protected registerForm: FormGroup;
 
   constructor(
