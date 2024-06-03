@@ -1,11 +1,11 @@
 export const environment = {
   production: true,
   firebaseConfig: {
-    apiKey: 'YOUR_PRODUCTION_API_KEY',
-    authDomain: 'YOUR_PRODUCTION_AUTH_DOMAIN',
-    projectId: 'YOUR_PRODUCTION_PROJECT_ID',
-    storageBucket: 'YOUR_PRODUCTION_STORAGE_BUCKET',
-    messagingSenderId: 'YOUR_PRODUCTION_MESSAGING_SENDER_ID',
-    appId: 'YOUR_PRODUCTION_APP_ID',
+    apiKey: "AIzaSyDNSHvSbw6eI_FY5zfp4QxN3bt9qbehJzY",
+    authDomain: "easy-find-d9e07.firebaseapp.com",
+    projectId: 'easy-find-d9e07',
+    storageBucket: 'easy-find-d9e07.appspot.com',
+    messagingSenderId: '21032800525',
+    appId: '1:21032800525:web:ee9f9dbdc9496b208da044',
   },
 };
