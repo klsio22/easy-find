@@ -1,9 +1,9 @@
-// upload.service.ts
 import { Injectable } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { finalize } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import firebase from 'firebase/compat/app';
 
 @Injectable({
   providedIn: 'root'
@@ -20,15 +20,16 @@ export class UploadService {
     const task = this.storage.upload(filePath, file);
 
     return new Observable<string>((observer) => {
+      const handleDownloadUrl = (url: string) => {
+        this.addBookData(userId, {...bookData, imageUrl: url}).then(() => {
+          observer.next(url);
+          observer.complete();
+        });
+      };
+
       task.snapshotChanges().pipe(
         finalize(() => {
-          fileRef.getDownloadURL().subscribe((url) => {
-            // Add book data to Firestore
-            this.addBookData(userId, {...bookData, imageUrl: url}).then(() => {
-              observer.next(url);
-              observer.complete();
-            });
-          });
+          fileRef.getDownloadURL().subscribe(handleDownloadUrl);
         })
       ).subscribe();
     });

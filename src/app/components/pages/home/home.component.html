@@ -62,11 +62,19 @@
       </div>
 
       <div>
-        <input type="file" (change)="onFileSelected($event)" class="w-full mb-5" />
-        <button (click)="onUpload()" class="w-full bg-slate-400">Upload</button>
-        <div *ngIf="downloadURL$ | async as downloadURL">
-          <a [href]="downloadURL" target="_blank">Download Link</a>
+
+        <input type="file" (change)="onFileSelected($event)" class="file-input w-full max-w-xs" />
+
+        <div class="mt-4 flex flex-col gap-3">
+          <input type="text" placeholder="Book Title" [(ngModel)]="bookTitle" class="text-stone" />
+          <input type="text" placeholder="Book Author" [(ngModel)]="bookAuthor" class="text-stone"/>
         </div>
+        <div class="mt-4">
+          <button (click)="onUpload()" class="btn border-2 bg-slate-500 text-white">Upload</button>
+        </div>
+      </div>
+      <div *ngIf="downloadURL$ | async as downloadURL">
+        <a [href]="downloadURL" target="_blank">Download Link</a>
       </div>
     </ul>
   </div>

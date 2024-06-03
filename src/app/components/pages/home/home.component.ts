@@ -5,11 +5,12 @@ import { Observable } from 'rxjs';
 import { UploadService } from '../../../services/upload.service';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [HeaderComponent, SpinnerComponent, CommonModule],
+  imports: [CommonModule,FormsModule,HeaderComponent, SpinnerComponent, ],
   templateUrl: './home.component.html',
 })
 export class HomeComponent {
@@ -36,7 +37,7 @@ export class HomeComponent {
 
       this.authService.getCurrentUser().subscribe(user => {
         if (user) {
-          this.downloadURL$ = this.uploadService.uploadFile(this.selectedFile, bookData, user.uid);
+          this.downloadURL$ = this.uploadService.uploadFile(this.selectedFile as File, bookData,  user.uid);
         }
       });
     }
