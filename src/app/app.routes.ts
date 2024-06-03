@@ -8,7 +8,6 @@ import { AuthenticationComponent } from './components/pages/account/authenticati
 import { AccountProfileComponent } from './components/pages/account/account-profile/account-profile.component';
 import { authGuard } from './services/auth.guard';
 import { loggedInGuard } from './services/logged-in.guard';
-import { authResolver } from './services/auth-resolver.service';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent, canActivate: [loggedInGuard] },
@@ -21,25 +20,21 @@ export const routes: Routes = [
     path: 'home',
     component: HomeComponent,
     canActivate: [authGuard],
-    resolve: { auth: authResolver },
   },
   {
     path: 'account',
     component: AccountProfileComponent,
     canActivate: [authGuard],
-    resolve: { auth: authResolver },
   },
   {
     path: 'authentication',
     component: AuthenticationComponent,
     canActivate: [authGuard],
-    resolve: { auth: authResolver },
   },
   {
     path: 'profile',
     component: UserProfileComponent,
     canActivate: [authGuard],
-    resolve: { auth: authResolver },
   },
   { path: '**', component: NotFoundPageComponent },
 ];

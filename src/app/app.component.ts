@@ -3,7 +3,6 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { RouterOutlet } from '@angular/router';
-import { app } from '../../server';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 
 @Component({
