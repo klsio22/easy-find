@@ -10,9 +10,9 @@ import { authGuard } from './services/auth.guard';
 import { loggedInGuard } from './services/logged-in.guard';
 
 export const routes: Routes = [
+  { path: 'home', component: HomeComponent, canActivate: [authGuard] },
   { path: '', component: LoginComponent, canActivate: [loggedInGuard] },
   { path: 'register', component: RegisterComponent, canActivate: [loggedInGuard] },
-  { path: 'home', component: HomeComponent, canActivate: [authGuard] },
   {
     path: 'account',
     component: AccountProfileComponent,
