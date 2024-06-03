@@ -8,6 +8,4 @@ import { BackPreviousScreenComponent } from '../../../back-previous-screen/back-
   imports: [UserProfileComponent, BackPreviousScreenComponent],
   templateUrl: './account-profile.component.html',
 })
-export class AccountProfileComponent {
-
-}
+export class AccountProfileComponent {}
