@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { finalize } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators'; // Import the 'map' operator
 import { Observable } from 'rxjs';
+import firebase from 'firebase/compat/app'; // Import the firebase module
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UploadService {
   constructor(
     private storage: AngularFireStorage,
-    private firestore: AngularFirestore
+    private firestore: AngularFirestore,
   ) {}
 
   uploadFile(file: File, userId: string): Observable<string> {
@@ -20,17 +21,22 @@ export class UploadService {
 
     return new Observable<string>((observer) => {
       const handleDownloadUrl = (url: string) => {
-        this.addFileData(userId, { imageUrl: url }).then(() => {
-          observer.next(url);
-          observer.complete();
-        });
+        this.addFileData(userId, { imageUrl: url, fileName: file.name }).then(
+          () => {
+            observer.next(url);
+            observer.complete();
+          },
+        );
       };
 
-      task.snapshotChanges().pipe(
-        finalize(() => {
-          fileRef.getDownloadURL().subscribe(handleDownloadUrl);
-        })
-      ).subscribe();
+      task
+        .snapshotChanges()
+        .pipe(
+          finalize(() => {
+            fileRef.getDownloadURL().subscribe(handleDownloadUrl);
+          }),
+        )
+        .subscribe();
     });
   }
 
@@ -38,9 +44,18 @@ export class UploadService {
     return this.firestore
       .collection('users')
       .doc(userId)
-      .collection('files')
-      .add(fileData)
+      .update({
+        books: firebase.firestore.FieldValue.arrayUnion(fileData.fileName),
+      })
       .then(() => console.log('File data added successfully'))
-      .catch(error => console.error('Error adding file data: ', error));
+      .catch((error) => console.error('Error adding file data: ', error));
+  }
+
+  getFiles(userId: string): Observable<any> {
+    return this.firestore
+      .collection('users')
+      .doc(userId)
+      .valueChanges()
+      .pipe(map((user: any) => user.books));
   }
 }

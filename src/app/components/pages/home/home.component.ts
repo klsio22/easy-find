@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from '../../header/header.component';
 import { SpinnerComponent } from '../../spinner/spinner.component';
 import { Observable } from 'rxjs';
@@ -13,12 +13,25 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule, HeaderComponent, SpinnerComponent],
   templateUrl: './home.component.html',
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   selectedFile: File | null = null;
   downloadURL$: Observable<string> | null = null;
   isLoading: boolean = false;
+  files$: Observable<any[]> | null = null;
 
-  constructor(private uploadService: UploadService, private authService: AuthService) {}
+  constructor(
+    private uploadService: UploadService,
+    private authService: AuthService,
+  ) {}
+
+  ngOnInit() {
+    this.authService.getCurrentUser().subscribe((user) => {
+      if (user) {
+        this.files$ = this.uploadService.getFiles(user.uid);
+        console.log(this.files$);
+      }
+    });
+  }
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
@@ -29,12 +42,15 @@ export class HomeComponent {
 
   onUpload() {
     if (this.selectedFile) {
-      this.isLoading = true;
-      this.authService.getCurrentUser().subscribe(user => {
+      this.isLoading = true; // Inicia o carregamento
+      this.authService.getCurrentUser().subscribe((user) => {
         if (user) {
-          this.downloadURL$ = this.uploadService.uploadFile(this.selectedFile as File, user.uid);
+          this.downloadURL$ = this.uploadService.uploadFile(
+            this.selectedFile as File,
+            user.uid,
+          );
           this.downloadURL$.subscribe(() => {
-            this.isLoading = false;
+            this.isLoading = false; // Termina o carregamento
           });
         }
       });
