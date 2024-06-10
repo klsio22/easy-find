@@ -59,4 +59,8 @@ export class AuthService {
     const storedUser = localStorage.getItem('user');
     return storedUser ? JSON.parse(storedUser) : null;
   }
+
+  getCurrentUser(): Observable<firebase.User | null> {
+    return this.afAuth.authState;
+  }
 }
