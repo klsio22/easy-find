@@ -3,7 +3,6 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { finalize } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import firebase from 'firebase/compat/app';
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +13,14 @@ export class UploadService {
     private firestore: AngularFirestore
   ) {}
 
-  uploadFile(file: File, bookData: any, userId: string): Observable<string> {
+  uploadFile(file: File, userId: string): Observable<string> {
     const filePath = `uploads/${file.name}`;
     const fileRef = this.storage.ref(filePath);
     const task = this.storage.upload(filePath, file);
 
     return new Observable<string>((observer) => {
       const handleDownloadUrl = (url: string) => {
-        this.addBookData(userId, {...bookData, imageUrl: url}).then(() => {
+        this.addFileData(userId, { imageUrl: url }).then(() => {
           observer.next(url);
           observer.complete();
         });
@@ -35,13 +34,13 @@ export class UploadService {
     });
   }
 
-  private async addBookData(userId: string, bookData: any): Promise<void> {
+  private async addFileData(userId: string, fileData: any): Promise<void> {
     return this.firestore
       .collection('users')
       .doc(userId)
-      .collection('books')
-      .add(bookData)
-      .then(() => console.log('Book data added successfully'))
-      .catch(error => console.error('Error adding book data: ', error));
+      .collection('files')
+      .add(fileData)
+      .then(() => console.log('File data added successfully'))
+      .catch(error => console.error('Error adding file data: ', error));
   }
 }

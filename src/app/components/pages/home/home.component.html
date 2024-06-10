@@ -1,5 +1,10 @@
 <app-spinner></app-spinner>
-<div class="drawer flex justify-center items-center h-screen w-full">
+
+<div class="drawer flex flex-col justify-center items-center h-screen w-full">
+  <div class="bg-slate-300 w-full">
+
+    <app-header></app-header>
+  </div>
   <input id="menu-drawer" type="checkbox" class="drawer-toggle" />
   <div class="bg-white p-6 rounded-md shadow-md w-full max-w-md flex h-full justify-between flex-col md:h-[85%]">
     <div class="flex justify-between items-center pb-4">
@@ -61,20 +66,18 @@
         <li><a>Sidebar Item 2</a></li>
       </div>
 
-      <div>
-
+      <div class="mt-12">
         <input type="file" (change)="onFileSelected($event)" class="file-input w-full max-w-xs" />
-
-        <div class="mt-4 flex flex-col gap-3">
-          <input type="text" placeholder="Book Title" [(ngModel)]="bookTitle" class="text-stone" />
-          <input type="text" placeholder="Book Author" [(ngModel)]="bookAuthor" class="text-stone"/>
-        </div>
-        <div class="mt-4">
-          <button (click)="onUpload()" class="btn border-2 bg-slate-500 text-white">Upload</button>
-        </div>
+        <button (click)="onUpload()" class="btn border-2 bg-slate-500 text-white mt-4 w-full">Upload</button>
       </div>
-      <div *ngIf="downloadURL$ | async as downloadURL">
-        <a [href]="downloadURL" target="_blank">Download Link</a>
+
+      <div *ngIf="isLoading" class="mt-12">
+        <span class="loading loading-dots loading-lg"></span>
+      </div>
+
+      <div *ngIf="downloadURL$ | async as downloadURL" class="mt-12 font-semibold text-lg text-yellow-100 text-center">
+        <p class="mb-4 text-green-900 ">livro carregado com sucesso</p>
+        <a [href]="downloadURL" target="_blank">Ver livro no navegador</a>
       </div>
     </ul>
   </div>

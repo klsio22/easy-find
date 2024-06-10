@@ -10,14 +10,13 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule,FormsModule,HeaderComponent, SpinnerComponent, ],
+  imports: [CommonModule, FormsModule, HeaderComponent, SpinnerComponent],
   templateUrl: './home.component.html',
 })
 export class HomeComponent {
   selectedFile: File | null = null;
-  bookTitle: string = '';
-  bookAuthor: string = '';
   downloadURL$: Observable<string> | null = null;
+  isLoading: boolean = false;
 
   constructor(private uploadService: UploadService, private authService: AuthService) {}
 
@@ -29,15 +28,14 @@ export class HomeComponent {
   }
 
   onUpload() {
-    if (this.selectedFile && this.bookTitle && this.bookAuthor) {
-      const bookData = {
-        title: this.bookTitle,
-        author: this.bookAuthor,
-      };
-
+    if (this.selectedFile) {
+      this.isLoading = true;
       this.authService.getCurrentUser().subscribe(user => {
         if (user) {
-          this.downloadURL$ = this.uploadService.uploadFile(this.selectedFile as File, bookData,  user.uid);
+          this.downloadURL$ = this.uploadService.uploadFile(this.selectedFile as File, user.uid);
+          this.downloadURL$.subscribe(() => {
+            this.isLoading = false;
+          });
         }
       });
     }
