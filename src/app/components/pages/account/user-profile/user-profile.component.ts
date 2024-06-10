@@ -1,8 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
 import { Router } from '@angular/router';
 import { BackPreviousScreenComponent } from '../../../back-previous-screen/back-previous-screen.component';
+import firebase from 'firebase/compat/app';
+import { FirebaseService } from '../../../../services/firebase.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -10,17 +12,32 @@ import { BackPreviousScreenComponent } from '../../../back-previous-screen/back-
   imports: [FormsModule, NgIf, BackPreviousScreenComponent],
   templateUrl: './user-profile.component.html',
 })
-export class UserProfileComponent {
-  @Input() userName: string;
-  @Input() userPhone: string;
-  @Input() userBio: string;
+export class UserProfileComponent implements OnInit {
+  @Input() userName: string = 'Seu nome';
+  @Input() userPhone: string = '';
+  @Input() userBio: string = '';
   @Input() editMode: boolean = false;
+  currentUser: firebase.User | null = null;
 
-  constructor(private router: Router) {
-    this.userName = 'João Silva';
-    this.userPhone = '555-555-5555';
-    this.userBio =
-      'João Silva nasceu em uma pequena aldeia no coração de Portugal. Desde criança, ele demonstrava uma curiosidade insaciável pelo mundo e uma paixão por explorar novos horizontes. Seus olhos brilhavam quando ouvia histórias de marinheiros e aventureiros que desbravavam os mares em busca de tesouros e conhecimento.';
+  constructor(private router: Router, private firebaseService: FirebaseService) {}
+
+  ngOnInit() {
+    this.firebaseService.getCurrentUser().subscribe((user) => {
+      if (user) {
+        this.currentUser = user;
+        this.loadUserProfile(user.uid);
+      }
+    });
+  }
+
+  loadUserProfile(uid: string) {
+    this.firebaseService.getUserProfile(uid).subscribe((profile) => {
+      if (profile) {
+        this.userName = profile.name || 'Seu nome';
+        this.userPhone = profile.phone || '';
+        this.userBio = profile.bio || '';
+      }
+    });
   }
 
   toggleEditMode() {
@@ -28,7 +45,16 @@ export class UserProfileComponent {
   }
 
   saveProfile() {
-    this.editMode = false;
+    if (this.currentUser) {
+      const userData = {
+        name: this.userName,
+        phone: this.userPhone,
+        bio: this.userBio,
+      };
+      this.firebaseService.saveUserProfile(this.currentUser.uid, userData).subscribe(() => {
+        this.editMode = false;
+      });
+    }
   }
 
   editProfile() {
