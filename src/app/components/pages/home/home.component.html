@@ -10,7 +10,7 @@
     <div class="flex justify-between items-center pb-4">
       <div class="drawer-content flex items-center md:hidden lg:hidden">
 
-        <label for="menu-drawer" class="btn btn-primary drawer-button">
+        <label for="menu-drawer" class="btn btn-primary drawer-button" id="menu-drawer-label">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
@@ -29,7 +29,10 @@
     </div>
     <div class="flex flex-col items-center justify-center">
       <div class="w-full h-64 bg-gray-200 rounded-md border-black border-2 flex items-center justify-center">
-        <span class="text-black">PDF vai aqui</span>
+        <span class="text-black">
+          <pdf-viewer *ngIf="selectedFileUrl" [src]="selectedFileUrl" [render-text]="true" [original-size]="false"
+          style="width: 400px; height: 500px"></pdf-viewer>
+        </span>
       </div>
     </div>
     <div class="flex flex-col justify-center p-4 text-white bg-violet-400 border rounded border-violet-400">
@@ -61,7 +64,7 @@
         <h3 class="text-lg font-bold text-center">Lista de livros enviados</h3>
         <div>
           <ul>
-            <li *ngFor="let file of files$ | async" class="mt-4">{{ file }}</li>
+            <!-- <li *ngFor="let file of files$ | async" class="mt-4">{{ file }}</li> -->
           </ul>
         </div>
       </div>

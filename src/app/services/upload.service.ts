@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { finalize, map } from 'rxjs/operators'; // Import the 'map' operator
+import { finalize, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import firebase from 'firebase/compat/app'; // Import the firebase module
+
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +21,7 @@ export class UploadService {
 
     return new Observable<string>((observer) => {
       const handleDownloadUrl = (url: string) => {
-        this.addFileData(userId, { imageUrl: url, fileName: file.name }).then(
+        this.addFileData(userId, { fileUrl: url, fileName: file.name }).then(
           () => {
             observer.next(url);
             observer.complete();
@@ -44,9 +44,17 @@ export class UploadService {
     return this.firestore
       .collection('users')
       .doc(userId)
-      .update({
-        books: firebase.firestore.FieldValue.arrayUnion(fileData.fileName),
-      })
+      .set(
+        {
+          books: {
+            [fileData.fileName]: {
+              FileName: [fileData.fileName],
+              FileUrl: [fileData.fileUrl],
+            },
+          },
+        },
+        { merge: true },
+      )
       .then(() => console.log('File data added successfully'))
       .catch((error) => console.error('Error adding file data: ', error));
   }

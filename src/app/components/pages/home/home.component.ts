@@ -6,22 +6,30 @@ import { UploadService } from '../../../services/upload.service';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
 import { FormsModule } from '@angular/forms';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, HeaderComponent, SpinnerComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    HeaderComponent,
+    SpinnerComponent,
+    PdfViewerModule
+  ],
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {
   selectedFile: File | null = null;
   downloadURL$: Observable<string> | null = null;
   isLoading: boolean = false;
-  files$: Observable<any[]> | null = null;
+  files$: Observable<any> | null = null;
+  selectedFileUrl: string | null = null;
 
   constructor(
     private uploadService: UploadService,
-    private authService: AuthService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -42,18 +50,23 @@ export class HomeComponent implements OnInit {
 
   onUpload() {
     if (this.selectedFile) {
-      this.isLoading = true; // Inicia o carregamento
+      this.isLoading = true;
       this.authService.getCurrentUser().subscribe((user) => {
         if (user) {
           this.downloadURL$ = this.uploadService.uploadFile(
             this.selectedFile as File,
-            user.uid,
+            user.uid
           );
-          this.downloadURL$.subscribe(() => {
-            this.isLoading = false; // Termina o carregamento
+          this.downloadURL$.subscribe((url) => {
+            this.isLoading = false;
+            this.selectedFileUrl = url;
           });
         }
       });
     }
+  }
+
+  viewPDF(url: string) {
+    this.selectedFileUrl = url;
   }
 }
