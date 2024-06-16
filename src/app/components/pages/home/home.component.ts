@@ -6,7 +6,6 @@ import { UploadService } from '../../../services/upload.service';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
 import { FormsModule } from '@angular/forms';
-import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +15,6 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     FormsModule,
     HeaderComponent,
     SpinnerComponent,
-    PdfViewerModule
   ],
   templateUrl: './home.component.html',
 })
