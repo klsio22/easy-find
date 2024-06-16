@@ -1,0 +1,61 @@
+import { Injectable } from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { finalize, map } from 'rxjs/operators'; // Import the 'map' operator
+import { Observable } from 'rxjs';
+import firebase from 'firebase/compat/app'; // Import the firebase module
+
+@Injectable({
+  providedIn: 'root',
+})
+export class UploadService {
+  constructor(
+    private storage: AngularFireStorage,
+    private firestore: AngularFirestore,
+  ) {}
+
+  uploadFile(file: File, userId: string): Observable<string> {
+    const filePath = `uploads/${file.name}`;
+    const fileRef = this.storage.ref(filePath);
+    const task = this.storage.upload(filePath, file);
+
+    return new Observable<string>((observer) => {
+      const handleDownloadUrl = (url: string) => {
+        this.addFileData(userId, { imageUrl: url, fileName: file.name }).then(
+          () => {
+            observer.next(url);
+            observer.complete();
+          },
+        );
+      };
+
+      task
+        .snapshotChanges()
+        .pipe(
+          finalize(() => {
+            fileRef.getDownloadURL().subscribe(handleDownloadUrl);
+          }),
+        )
+        .subscribe();
+    });
+  }
+
+  private async addFileData(userId: string, fileData: any): Promise<void> {
+    return this.firestore
+      .collection('users')
+      .doc(userId)
+      .update({
+        books: firebase.firestore.FieldValue.arrayUnion(fileData.fileName),
+      })
+      .then(() => console.log('File data added successfully'))
+      .catch((error) => console.error('Error adding file data: ', error));
+  }
+
+  getFiles(userId: string): Observable<any> {
+    return this.firestore
+      .collection('users')
+      .doc(userId)
+      .valueChanges()
+      .pipe(map((user: any) => user.books));
+  }
+}

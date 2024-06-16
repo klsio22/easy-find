@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   FormBuilder,
@@ -10,10 +10,12 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { FirebaseService } from '../../../services/firebase.service';
-import { Firestore } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AuthService } from '../../../services/auth.service';
+import { Auth, GoogleAuthProvider, signInWithPopup } from '@angular/fire/auth';
+
 
 interface RegisterData {
   email: string;
@@ -33,14 +35,14 @@ interface RegisterData {
   templateUrl: './register.component.html',
 })
 export class RegisterComponent {
-  firestore: Firestore = inject(Firestore);
-
   protected registerForm: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private firebaseService: FirebaseService,
+    private authService: AuthService,
+    private afAuth: Auth,
   ) {
     this.registerForm = this.formBuilder.group(
       {
@@ -69,6 +71,7 @@ export class RegisterComponent {
         },
         error: (error) => {
           console.error('Error registering user:', error);
+          alert('Usuário já existe ou tente novamente mais tarde');
         },
       });
     }
@@ -90,4 +93,18 @@ export class RegisterComponent {
   private saveToStorage(data: RegisterData) {
     localStorage.setItem('registerData', JSON.stringify(data));
   }
+
+
+  async loginWithGoogle() {
+    this.authService.login().then( async () => {
+     try {
+       const provider = new GoogleAuthProvider();
+       const result = await signInWithPopup(this.afAuth, provider);
+       console.log('Usuário logado:', result.user);
+       this.router.navigate(['/home']);
+     } catch (error) {
+       console.error('Erro ao fazer login:', error);
+     }
+   });
+ }
 }

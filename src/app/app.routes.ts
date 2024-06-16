@@ -6,14 +6,35 @@ import { NotFoundPageComponent } from './components/pages/not-found-page/not-fou
 import { UserProfileComponent } from './components/pages/account/user-profile/user-profile.component';
 import { AuthenticationComponent } from './components/pages/account/authentication/authentication.component';
 import { AccountProfileComponent } from './components/pages/account/account-profile/account-profile.component';
+import { authGuard } from './services/auth.guard';
+import { loggedInGuard } from './services/logged-in.guard';
 
 export const routes: Routes = [
-  { path: '', component: LoginComponent},
-  { path: 'register', component: RegisterComponent},
-  { path: 'home', component: HomeComponent },
-  { path: 'account', component: AccountProfileComponent},
-  { path: 'authentication', component: AuthenticationComponent },
-  { path: 'profile', component: UserProfileComponent },
-
-  { path: '**', component: NotFoundPageComponent }
+  { path: '', component: LoginComponent, canActivate: [loggedInGuard] },
+  {
+    path: 'register',
+    component: RegisterComponent,
+    canActivate: [loggedInGuard],
+  },
+  {
+    path: 'home',
+    component: HomeComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'account',
+    component: AccountProfileComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'authentication',
+    component: AuthenticationComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'profile',
+    component: UserProfileComponent,
+    canActivate: [authGuard],
+  },
+  { path: '**', component: NotFoundPageComponent },
 ];
