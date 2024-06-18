@@ -4,7 +4,6 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { finalize, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
-
 @Injectable({
   providedIn: 'root',
 })
@@ -41,6 +40,10 @@ export class UploadService {
   }
 
   private async addFileData(userId: string, fileData: any): Promise<void> {
+    if (!fileData.fileName || !fileData.fileUrl) {
+      throw new Error('Invalid file data');
+    }
+
     return this.firestore
       .collection('users')
       .doc(userId)
@@ -48,8 +51,8 @@ export class UploadService {
         {
           books: {
             [fileData.fileName]: {
-              FileName: [fileData.fileName],
-              FileUrl: [fileData.fileUrl],
+              FileName: fileData.fileName,
+              FileUrl: fileData.fileUrl,
             },
           },
         },
