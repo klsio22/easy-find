@@ -5,7 +5,7 @@ import { finalize, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import 'firebase/compat/firestore';
 
-interface BookData {
+export interface BookData {
   FileName: string;
   FileUrl: string;
 }

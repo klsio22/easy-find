@@ -1,4 +1,5 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+// home.component.ts
+import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from '../../header/header.component';
 import { SpinnerComponent } from '../../spinner/spinner.component';
 import { Observable } from 'rxjs';
@@ -7,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { PreviewPdfService } from '../../../services/preview-pdf.service';
+import { BookData } from '../../../services/upload.service';
 
 @Component({
   selector: 'app-home',
@@ -19,7 +21,7 @@ export class HomeComponent implements OnInit {
   selectedFile: File | null = null;
   downloadURL$: Observable<string> | null = null;
   isLoading: boolean = false;
-  files$: Observable<any> | null = null;
+  books$: Observable<BookData[]> | null = null;
   selectedFileUrl: string | null = null;
   convertedFileUrl: string | null = null;
 
@@ -32,8 +34,8 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.authService.getCurrentUser().subscribe((user) => {
       if (user) {
-        this.files$ = this.uploadService.getFiles(user.uid);
-        console.log(this.files$);
+        this.books$ = this.uploadService.getFiles(user.uid);
+        console.log(this.books$);
       }
     });
   }

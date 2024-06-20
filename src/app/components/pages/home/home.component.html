@@ -56,12 +56,13 @@
   <div class="drawer-side">
     <label for="menu-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
     <ul class="menu p-4 w-80 min-h-full text-white bg-neon-carrot flex flex-col items-center">
-      <div *ngIf="files$ | async as files" class="mt-4">
+      <div *ngIf="books$ | async as books" class="mt-4">
         <h3 class="text-lg font-bold text-center">Lista de livros enviados</h3>
-       <!--  <div id="adobe-dc-view" class="pdf-viewer"></div> -->
         <div>
           <ul>
-            <!-- <li *ngFor="let file of files$ | async" class="mt-4">{{ file }}</li> -->
+            <li *ngFor="let book of books" class="mt-4">
+              <a (click)="viewPDF(book.FileUrl)">{{ book.FileName }}</a>
+            </li>
           </ul>
         </div>
       </div>
