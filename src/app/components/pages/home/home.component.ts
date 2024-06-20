@@ -6,12 +6,14 @@ import { UploadService } from '../../../services/upload.service';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
 import { FormsModule } from '@angular/forms';
+import { PreviewPdfService } from '../../../services/preview-pdf.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule, FormsModule, HeaderComponent, SpinnerComponent],
   templateUrl: './home.component.html',
+  providers: [PreviewPdfService],
 })
 export class HomeComponent implements OnInit {
   selectedFile: File | null = null;
@@ -19,12 +21,12 @@ export class HomeComponent implements OnInit {
   isLoading: boolean = false;
   files$: Observable<any> | null = null;
   selectedFileUrl: string | null = null;
-  private adobeDCView: any;
+  convertedFileUrl: string | null = null;
 
   constructor(
     private uploadService: UploadService,
     private authService: AuthService,
-    private elementRef: ElementRef,
+    private previewPdfService: PreviewPdfService,
   ) {}
 
   ngOnInit() {
@@ -34,48 +36,12 @@ export class HomeComponent implements OnInit {
         console.log(this.files$);
       }
     });
-
-    this.initAdobeDCView();
   }
 
   ngAfterViewInit(): void {
-    this.initAdobeDCView();
-  }
-
-  private initAdobeDCView(): void {
-    const script = document.createElement('script');
-    script.src = 'https://acrobatservices.adobe.com/view-sdk/viewer.js';
-    document.body.prepend(script);
-
-    script.onload = () => {
-      document.addEventListener('adobe_dc_view_sdk.ready', () => {
-        this.adobeDCView = new (window as any).AdobeDC.View({
-          clientId: '0a7691ebc5a14abbadd6bbb8a897fb4f',
-          divId: 'adobe-dc-view',
-        });
-
-        this.previewFile('https://acrobatservices.adobe.com/view-sdk-demo/PDFs/Bodea%20Brochure.pdf');
-        /* if (this.selectedFileUrl) {
-        } */
-      });
-    };
-  }
-
-  private previewFile(url: string): void {
-    this.adobeDCView.previewFile(
-      {
-        content: {
-          location: {
-            url: url,
-          },
-        },
-        metaData: {
-          fileName: 'Uploaded PDF',
-        },
-      },
-      {
-        embedMode: 'SIZED_CONTAINER',
-      },
+    this.previewPdfService.initAdobeDCView(
+      '0a7691ebc5a14abbadd6bbb8a897fb4f',
+      'adobe-dc-view',
     );
   }
 
@@ -98,7 +64,10 @@ export class HomeComponent implements OnInit {
           this.downloadURL$.subscribe((url) => {
             this.isLoading = false;
             this.selectedFileUrl = url;
-            this.previewFile(url);
+            this.uploadService.addFileData(user.uid, {
+              fileName: this.selectedFile?.name,
+              fileUrl: url,
+            });
           });
         }
       });
@@ -106,7 +75,6 @@ export class HomeComponent implements OnInit {
   }
 
   viewPDF(url: string) {
-    this.selectedFileUrl = url;
-    this.previewFile(url);
+    this.previewPdfService.previewPdf(url, 'Uploaded PDF');
   }
 }

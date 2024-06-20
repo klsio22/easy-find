@@ -16,8 +16,6 @@
           </svg>
           <span class="hidden">menu</span>
         </label>
-
-
       </div>
       <div class="flex items-center">
         <a href="/account">
@@ -31,7 +29,6 @@
     </div>
     <div class="flex flex-col items-center justify-center h-[532px]">
       <div class="w-full bg-gray-200 rounded-md border-black border-2 flex items-center justify-center my-4 h-full">
-        <div id="adobe-dc-view" class="pdf-viewer"></div>
       </div>
     </div>
     <div class="flex flex-col justify-center p-4 text-white bg-violet-400 border rounded border-violet-400">
@@ -61,6 +58,7 @@
     <ul class="menu p-4 w-80 min-h-full text-white bg-neon-carrot flex flex-col items-center">
       <div *ngIf="files$ | async as files" class="mt-4">
         <h3 class="text-lg font-bold text-center">Lista de livros enviados</h3>
+       <!--  <div id="adobe-dc-view" class="pdf-viewer"></div> -->
         <div>
           <ul>
             <!-- <li *ngFor="let file of files$ | async" class="mt-4">{{ file }}</li> -->
