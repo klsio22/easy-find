@@ -2,7 +2,6 @@
 
 <div class="drawer flex-col justify-center items-center h-screen w-full">
   <div class="bg-slate-300 w-full">
-
     <app-header></app-header>
   </div>
   <input id="menu-drawer" type="checkbox" class="drawer-toggle" />
@@ -12,7 +11,6 @@
         <label for="menu-drawer" class="btn btn-primary drawer-button " id="menu-drawer-label">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-
           </svg>
           <span class="hidden">menu</span>
         </label>
@@ -29,6 +27,7 @@
     </div>
     <div class="flex flex-col items-center justify-center h-[532px]">
       <div class="w-full bg-gray-200 rounded-md border-black border-2 flex items-center justify-center my-4 h-full">
+        <div id="adobe-dc-view" class="pdf-viewer"></div>
       </div>
     </div>
     <div class="flex flex-col justify-center p-4 text-white bg-violet-400 border rounded border-violet-400">
@@ -58,6 +57,7 @@
     <ul class="menu p-4 w-80 min-h-full text-white bg-neon-carrot flex flex-col items-center">
       <div *ngIf="books$ | async as books" class="mt-4">
         <h3 class="text-lg font-bold text-center">Lista de livros enviados</h3>
+
         <div>
           <ul>
             <li *ngFor="let book of books" class="mt-4">

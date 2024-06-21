@@ -30,7 +30,7 @@ export class UploadService {
 
     return new Observable<string>((observer) => {
       const handleDownloadUrl = (url: string) => {
-        this.addFileData(userId, { fileUrl: url, fileName: file.name }).then(
+        this.addFileData(userId, { FileUrl: url, FileName: file.name }).then(
           () => {
             observer.next(url);
             observer.complete();
@@ -49,8 +49,8 @@ export class UploadService {
     });
   }
 
-  public async addFileData(userId: string, fileData: any): Promise<void> {
-    if (!fileData.fileName || !fileData.fileUrl) {
+  public async addFileData(userId: string, fileData: BookData): Promise<void> {
+    if (!fileData.FileName || !fileData.FileUrl) {
       throw new Error('Invalid file data');
     }
 
@@ -67,26 +67,29 @@ export class UploadService {
         }
 
         const existingBookIndex = books.findIndex(
-          (book) => book.FileUrl === fileData.fileUrl,
+          (book) => book.FileName === fileData.FileName
         );
 
-        if (existingBookIndex === -1) {
-          books.push({
-            FileName: fileData.fileName,
-            FileUrl: fileData.fileUrl,
-          });
-          transaction.set(userDocRef, { books }, { merge: true });
-          console.log('File data added successfully');
+        if (existingBookIndex !== -1) {
+          books[existingBookIndex] = {
+            FileName: fileData.FileName,
+            FileUrl: fileData.FileUrl,
+          };
         } else {
-          console.log('File data already exists');
+          books.push({
+            FileName: fileData.FileName,
+            FileUrl: fileData.FileUrl,
+          });
         }
+
+        transaction.set(userDocRef, { books }, { merge: true });
+        console.log('File data updated/added successfully');
       });
     } catch (error) {
-      console.error('Error adding file data: ', error);
+      console.error('Error updating/adding file data: ', error);
       throw error;
     }
   }
-
   getFiles(userId: string): Observable<any> {
     return this.firestore
       .collection('users')

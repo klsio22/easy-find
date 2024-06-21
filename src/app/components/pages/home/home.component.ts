@@ -67,8 +67,8 @@ export class HomeComponent implements OnInit {
             this.isLoading = false;
             this.selectedFileUrl = url;
             this.uploadService.addFileData(user.uid, {
-              fileName: this.selectedFile?.name,
-              fileUrl: url,
+              FileName: this.selectedFile?.name ?? '',
+              FileUrl: url,
             });
           });
         }
@@ -77,6 +77,7 @@ export class HomeComponent implements OnInit {
   }
 
   viewPDF(url: string) {
-    this.previewPdfService.previewPdf(url, 'Uploaded PDF');
+    console.log(url);
+    this.previewPdfService.previewPdf("https://domainpublic.wordpress.com/wp-content/uploads/2022/01/plataoapologia.pdf", 'Uploaded PDF');
   }
 }
