@@ -3,19 +3,17 @@ import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from '../../header/header.component';
 import { SpinnerComponent } from '../../spinner/spinner.component';
 import { Observable } from 'rxjs';
-import { UploadService } from '../../../services/upload.service';
+import { UploadService, BookData } from '../../../services/upload.service';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
 import { FormsModule } from '@angular/forms';
-import { PreviewPdfService } from '../../../services/preview-pdf.service';
-import { BookData } from '../../../services/upload.service';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule, FormsModule, HeaderComponent, SpinnerComponent],
   templateUrl: './home.component.html',
-  providers: [PreviewPdfService],
 })
 export class HomeComponent implements OnInit {
   selectedFile: File | null = null;
@@ -23,12 +21,12 @@ export class HomeComponent implements OnInit {
   isLoading: boolean = false;
   books$: Observable<BookData[]> | null = null;
   selectedFileUrl: string | null = null;
-  convertedFileUrl: string | null = null;
+  FileUrl: SafeResourceUrl | null = null;
 
   constructor(
     private uploadService: UploadService,
     private authService: AuthService,
-    private previewPdfService: PreviewPdfService,
+    private sanitizer: DomSanitizer,
   ) {}
 
   ngOnInit() {
@@ -38,13 +36,6 @@ export class HomeComponent implements OnInit {
         console.log(this.books$);
       }
     });
-  }
-
-  ngAfterViewInit(): void {
-    this.previewPdfService.initAdobeDCView(
-      '0a7691ebc5a14abbadd6bbb8a897fb4f',
-      'adobe-dc-view',
-    );
   }
 
   onFileSelected(event: any) {
@@ -76,8 +67,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  viewPDF(url: string) {
-    console.log(url);
-    this.previewPdfService.previewPdf("https://domainpublic.wordpress.com/wp-content/uploads/2022/01/plataoapologia.pdf", 'Uploaded PDF');
+  viewPDF(fileUrl: string) {
+    this.FileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fileUrl);
   }
 }
