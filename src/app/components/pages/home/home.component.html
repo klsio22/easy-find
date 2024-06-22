@@ -5,10 +5,32 @@
 
 <div class="hidden lg:flex h-screen w-full">
   <div class="bg-gray-800 text-white w-1/6 p-4 flex flex-col justify-start items-center bg-neon-carrot">
-    <ul class="space-y-4">
-      <li>Livro 1</li>
-      <li>Livro 2</li>
-      <li>Livro 3</li>
+    <ul class="menu p-4 w-80 min-h-full text-white bg-neon-carrot flex flex-col items-center">
+      <div *ngIf="books$ | async as books" class="mt-4">
+        <h3 class="text-lg font-bold text-center">Lista de livros enviados</h3>
+
+        <div>
+          <ul>
+            <li *ngFor="let book of books" class="mt-4">
+              <a (click)="viewPDF(book.FileUrl)">{{ book.FileName }}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-12">
+        <input type="file" (change)="onFileSelected($event)" class="file-input w-full max-w-xs" />
+        <button (click)="onUpload()" class="btn border-2 bg-slate-500 text-white mt-4 w-full">Upload</button>
+      </div>
+
+      <div *ngIf="isLoading" class="mt-12">
+        <span class="loading loading-dots loading-lg"></span>
+      </div>
+
+      <div *ngIf="downloadURL$ | async as downloadURL" class="mt-12 font-semibold text-lg text-yellow-100 text-center">
+        <p class="mb-4 text-green-900 ">livro carregado com sucesso</p>
+        <a [href]="downloadURL" target="_blank">Ver livro no navegador</a>
+      </div>
     </ul>
   </div>
 
@@ -21,7 +43,7 @@
         <button class="btn btn-primary bg-white border-white">Sobre</button>
       </div>
 
-      <svg xmlns="http://www.w3.org/2000/svg"  width="36" height="36" fill="#4f4f4f" viewBox="0 0 256 256">
+      <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="#4f4f4f" viewBox="0 0 256 256">
         <path
           d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Zm97.76,66.41a79.66,79.66,0,0,0-36.06-28.75,48,48,0,1,0-59.4,0,79.66,79.66,0,0,0-36.06,28.75,88,88,0,1,1,131.52,0Z">
         </path>
@@ -31,10 +53,14 @@
 
     <div class="flex flex-1">
       <div class="w-2/3 bg-gray-200 border-black border-2 rounded-md flex items-center justify-center">
-        <span class="text-black">PDF vai aqui</span>
+        <div class="w-full bg-gray-200 rounded-md border-black border-2 flex items-center justify-center my-4 h-full">
+          <iframe [src]="FileUrl" frameborder="0" title="" class="w-full h-full">
+            <p>Your browser does not support iframes.</p>
+          </iframe>
+        </div>
       </div>
       <div class="w-1/3 flex flex-col justify-between ml-4">
-        <div class="h-5/6 bg-neon-carrot p-4">
+        <div class="h-5/6 bg-neon-carrot p-4 rounded-lg">
           <p>Resultados da Busca: "Data Types"</p>
           <p>Capítulo 1:</p>
           <ul class="list-disc ml-5">
@@ -47,11 +73,13 @@
 
     <div class="mt-4">
       <div class="flex items-center bg-yellow-400 rounded p-3 w-full">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-slate-600" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M21 21l-4.35-4.35m0 0a7 7 0 111.4-1.4l4.35 4.35z" />
         </svg>
-        <input type="text" placeholder="Digite sua busca" class="bg-yellow-400 outline-none text-slate-600 ml-2 w-full" />
+        <input type="text" placeholder="Digite sua busca"
+          class="bg-yellow-400 outline-none text-slate-600 ml-2 w-full" />
       </div>
     </div>
   </div>
@@ -60,7 +88,8 @@
 
 <div class="hidden drawer flex flex-col justify-center items-center h-screen w-full max-[1024px]:flex">
   <input id="menu-drawer" type="checkbox" class="drawer-toggle" />
-  <div class="bg-white p-6 rounded-md shadow-md w-full max-w-md flex h-full justify-between flex-col md:h-[85%] sm:mt-4">
+  <div
+    class="bg-white p-6 rounded-md shadow-md w-full max-w-md flex h-full justify-between flex-col md:h-[85%] sm:mt-4">
     <div class="flex justify-between items-center pb-4">
       <div class="drawer-content flex items-center md:hidden lg:hidden">
         <label for="menu-drawer" class="btn btn-primary drawer-button " id="menu-drawer-label">
@@ -71,12 +100,15 @@
         </label>
       </div>
 
+
       <div class="flex flex-col justify-end items-end md:hidden lg:hidden">
-        <svg xmlns="http://www.w3.org/2000/svg"  width="36" height="36" fill="#4f4f4f" viewBox="0 0 256 256">
-        <path
-          d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Zm97.76,66.41a79.66,79.66,0,0,0-36.06-28.75,48,48,0,1,0-59.4,0,79.66,79.66,0,0,0-36.06,28.75,88,88,0,1,1,131.52,0Z">
-        </path>
-      </svg>
+        <a href="/account">
+          <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="#4f4f4f" viewBox="0 0 256 256">
+            <path
+              d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Zm97.76,66.41a79.66,79.66,0,0,0-36.06-28.75,48,48,0,1,0-59.4,0,79.66,79.66,0,0,0-36.06,28.75,88,88,0,1,1,131.52,0Z">
+            </path>
+          </svg>
+        </a>
       </div>
 
     </div>
