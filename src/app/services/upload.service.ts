@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { finalize, map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { finalize, map } from 'rxjs/operators';
 import 'firebase/compat/firestore';
 
 export interface BookData {
@@ -18,10 +19,42 @@ interface UserData<T> {
   providedIn: 'root',
 })
 export class UploadService {
+  private convertApiSecret = 'RA0mTkUEehXDvJih';
+
   constructor(
     private storage: AngularFireStorage,
     private firestore: AngularFirestore,
+    private http: HttpClient,
   ) {}
+
+  convertPdfToHtml(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const apiUrl = `https://v2.convertapi.com/convert/pdf/to/html?Secret=${this.convertApiSecret}`;
+
+    console.log("v2312>>", apiUrl, formData);
+
+    return this.http.post(apiUrl, formData);
+  }
+
+  saveToLocalStorage(key: string, data: any): void {
+    const dataString = JSON.stringify(data);
+    const dataSize = new Blob([dataString]).size;
+    const maxSize = 5 * 1024 * 1024; // 5MB
+
+    if (dataSize > maxSize) {
+      console.warn('Dados muito grandes para armazenar no localStorage');
+      // Utilize uma abordagem alternativa aqui, como armazenar em um banco de dados
+    } else {
+      localStorage.setItem(key, dataString);
+    }
+  }
+
+  getFromLocalStorage(key: string): any {
+    const data = localStorage.getItem(key);
+    return data ? JSON.parse(data) : null;
+  }
 
   uploadFile(file: File, userId: string): Observable<string> {
     const filePath = `uploads/${file.name}`;
@@ -57,6 +90,16 @@ export class UploadService {
     const userDocRef = this.firestore.collection('users').doc(userId).ref;
 
     try {
+      const existingBooksSnapshot = await userDocRef
+        .collection('books')
+        .where('FileName', '==', fileData.FileName)
+        .get();
+
+      if (!existingBooksSnapshot.empty) {
+        console.log('File data already exists');
+        return;
+      }
+
       await this.firestore.firestore.runTransaction(async (transaction) => {
         const userDoc = await transaction.get(userDocRef);
         let books: BookData[] = [];
@@ -66,30 +109,20 @@ export class UploadService {
           books = Array.isArray(userData.books) ? [...userData.books] : [];
         }
 
-        const existingBookIndex = books.findIndex(
-          (book) => book.FileName === fileData.FileName
-        );
-
-        if (existingBookIndex !== -1) {
-          books[existingBookIndex] = {
-            FileName: fileData.FileName,
-            FileUrl: fileData.FileUrl,
-          };
-        } else {
-          books.push({
-            FileName: fileData.FileName,
-            FileUrl: fileData.FileUrl,
-          });
-        }
+        books.push({
+          FileName: fileData.FileName,
+          FileUrl: fileData.FileUrl,
+        });
 
         transaction.set(userDocRef, { books }, { merge: true });
-        console.log('File data updated/added successfully');
+        console.log('File data added successfully');
       });
     } catch (error) {
-      console.error('Error updating/adding file data: ', error);
+      console.error('Error adding file data: ', error);
       throw error;
     }
   }
+
   getFiles(userId: string): Observable<any> {
     return this.firestore
       .collection('users')
