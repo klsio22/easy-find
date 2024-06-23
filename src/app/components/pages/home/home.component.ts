@@ -1,11 +1,13 @@
+// home.component.ts
 import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from '../../header/header.component';
 import { SpinnerComponent } from '../../spinner/spinner.component';
 import { Observable } from 'rxjs';
-import { UploadService } from '../../../services/upload.service';
+import { UploadService, BookData } from '../../../services/upload.service';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
 import { FormsModule } from '@angular/forms';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-home',
@@ -17,18 +19,21 @@ export class HomeComponent implements OnInit {
   selectedFile: File | null = null;
   downloadURL$: Observable<string> | null = null;
   isLoading: boolean = false;
-  files$: Observable<any[]> | null = null;
+  books$: Observable<BookData[]> | null = null;
+  selectedFileUrl: string | null = null;
+  FileUrl: SafeResourceUrl | null = null;
 
   constructor(
     private uploadService: UploadService,
     private authService: AuthService,
+    private sanitizer: DomSanitizer,
   ) {}
 
   ngOnInit() {
     this.authService.getCurrentUser().subscribe((user) => {
       if (user) {
-        this.files$ = this.uploadService.getFiles(user.uid);
-        console.log(this.files$);
+        this.books$ = this.uploadService.getFiles(user.uid);
+        console.log(this.books$);
       }
     });
   }
@@ -42,18 +47,27 @@ export class HomeComponent implements OnInit {
 
   onUpload() {
     if (this.selectedFile) {
-      this.isLoading = true; // Inicia o carregamento
+      this.isLoading = true;
       this.authService.getCurrentUser().subscribe((user) => {
         if (user) {
           this.downloadURL$ = this.uploadService.uploadFile(
             this.selectedFile as File,
             user.uid,
           );
-          this.downloadURL$.subscribe(() => {
-            this.isLoading = false; // Termina o carregamento
+          this.downloadURL$.subscribe((url) => {
+            this.isLoading = false;
+            this.selectedFileUrl = url;
+            this.uploadService.addFileData(user.uid, {
+              FileName: this.selectedFile?.name ?? '',
+              FileUrl: url,
+            });
           });
         }
       });
     }
+  }
+
+  viewPDF(fileUrl: string) {
+    this.FileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fileUrl);
   }
 }

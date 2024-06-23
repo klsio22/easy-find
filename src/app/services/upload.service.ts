@@ -1,9 +1,18 @@
 import { Injectable } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { finalize, map } from 'rxjs/operators'; // Import the 'map' operator
+import { finalize, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import firebase from 'firebase/compat/app'; // Import the firebase module
+import 'firebase/compat/firestore';
+
+export interface BookData {
+  FileName: string;
+  FileUrl: string;
+}
+
+interface UserData<T> {
+  books: T[];
+}
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +30,7 @@ export class UploadService {
 
     return new Observable<string>((observer) => {
       const handleDownloadUrl = (url: string) => {
-        this.addFileData(userId, { imageUrl: url, fileName: file.name }).then(
+        this.addFileData(userId, { FileUrl: url, FileName: file.name }).then(
           () => {
             observer.next(url);
             observer.complete();
@@ -40,17 +49,47 @@ export class UploadService {
     });
   }
 
-  private async addFileData(userId: string, fileData: any): Promise<void> {
-    return this.firestore
-      .collection('users')
-      .doc(userId)
-      .update({
-        books: firebase.firestore.FieldValue.arrayUnion(fileData.fileName),
-      })
-      .then(() => console.log('File data added successfully'))
-      .catch((error) => console.error('Error adding file data: ', error));
-  }
+  public async addFileData(userId: string, fileData: BookData): Promise<void> {
+    if (!fileData.FileName || !fileData.FileUrl) {
+      throw new Error('Invalid file data');
+    }
 
+    const userDocRef = this.firestore.collection('users').doc(userId).ref;
+
+    try {
+      await this.firestore.firestore.runTransaction(async (transaction) => {
+        const userDoc = await transaction.get(userDocRef);
+        let books: BookData[] = [];
+
+        if (userDoc.exists) {
+          const userData = userDoc.data() as UserData<BookData>;
+          books = Array.isArray(userData.books) ? [...userData.books] : [];
+        }
+
+        const existingBookIndex = books.findIndex(
+          (book) => book.FileName === fileData.FileName
+        );
+
+        if (existingBookIndex !== -1) {
+          books[existingBookIndex] = {
+            FileName: fileData.FileName,
+            FileUrl: fileData.FileUrl,
+          };
+        } else {
+          books.push({
+            FileName: fileData.FileName,
+            FileUrl: fileData.FileUrl,
+          });
+        }
+
+        transaction.set(userDocRef, { books }, { merge: true });
+        console.log('File data updated/added successfully');
+      });
+    } catch (error) {
+      console.error('Error updating/adding file data: ', error);
+      throw error;
+    }
+  }
   getFiles(userId: string): Observable<any> {
     return this.firestore
       .collection('users')
