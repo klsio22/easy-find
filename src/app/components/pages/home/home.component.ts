@@ -89,7 +89,6 @@ export class HomeComponent implements OnInit {
             this.books$ = this.fileService.getFiles(user.uid);
             this.showSuccessMessage = false;
             this.showRemoveSuccessMessage = true;
-            console.log('File removed successfully');
           })
           .catch((error) => {
             console.error('Error removing file:', error);
@@ -110,13 +109,11 @@ export class HomeComponent implements OnInit {
     this.chatPdfService.addPdfByUrl(this.bookUrlSector).subscribe({
       next: (response) => {
         this.sourceId = response.sourceId;
-        console.log('PDF adicionado com Source ID:', this.sourceId);
         this.chatPdfService
           .chatWithPdf(this.sourceId, messages, true, false)
           .subscribe({
             next: (response) => {
               this.chatResponse = response.content;
-              console.log('Resposta da API:', this.chatResponse);
             },
             error: (error) => {
               console.error('Erro ao fazer pergunta:', error);

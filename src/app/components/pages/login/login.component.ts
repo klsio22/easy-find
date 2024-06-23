@@ -12,22 +12,20 @@ import { Auth, GoogleAuthProvider, signInWithPopup } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 
-
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule,HeaderComponent, SpinnerComponent],
+  imports: [ReactiveFormsModule, HeaderComponent, SpinnerComponent],
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
   loginForm: FormGroup;
 
-
   constructor(
     private formBuilder: FormBuilder,
     private afAuth: Auth,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
   ) {
     this.router = router;
     this.afAuth = afAuth;
@@ -43,7 +41,6 @@ export class LoginComponent {
 
     try {
       await this.authService.loginWithEmail(email, password);
-      console.log('Usuário logado com email:', email);
       this.router.navigate(['/home']);
     } catch (error) {
       console.error('Erro ao fazer login:', error);
@@ -51,11 +48,10 @@ export class LoginComponent {
   }
 
   async loginWithGoogle() {
-     this.authService.login().then( async () => {
+    this.authService.login().then(async () => {
       try {
         const provider = new GoogleAuthProvider();
-        const result = await signInWithPopup(this.afAuth, provider);
-        console.log('Usuário logado:', result.user);
+        await signInWithPopup(this.afAuth, provider);
         this.router.navigate(['/home']);
       } catch (error) {
         console.error('Erro ao fazer login:', error);

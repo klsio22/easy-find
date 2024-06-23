@@ -35,7 +35,9 @@ export class ChatPdfService {
 
   addPdfByUrl(url: string): Observable<any> {
     const endpoint = `${this.apiUrl}/sources/add-url`;
-    return this.http.post(endpoint, { url }, { headers: this.getHeaders() });
+    return this.http
+      .post(endpoint, { url }, { headers: this.getHeaders() })
+      .pipe(catchError(this.handleError));
   }
 
   addPdfByFile(file: File): Observable<any> {
@@ -61,10 +63,10 @@ export class ChatPdfService {
       stream,
     };
     const endpoint = `${this.apiUrl}/chats/message`;
-    return this.http.post(endpoint, body, {
-      headers: this.getHeaders(),
-    }).pipe(
-      catchError(this.handleError)
-    );
+    return this.http
+      .post(endpoint, body, {
+        headers: this.getHeaders(),
+      })
+      .pipe(catchError(this.handleError));
   }
 }

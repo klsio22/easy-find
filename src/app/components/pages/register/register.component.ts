@@ -103,7 +103,6 @@ export class RegisterComponent {
      try {
        const provider = new GoogleAuthProvider();
        const result = await signInWithPopup(this.afAuth, provider);
-       console.log('Usuário logado:', result.user);
        this.router.navigate(['/home']);
      } catch (error) {
        console.error('Erro ao fazer login:', error);
