@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -26,7 +27,8 @@ export class HomeComponent implements OnInit {
   constructor(
     private uploadService: UploadService,
     private authService: AuthService,
-    private sanitizer: DomSanitizer,
+    private router: Router,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit() {
@@ -65,6 +67,12 @@ export class HomeComponent implements OnInit {
         }
       });
     }
+  }
+
+  logout() {
+    this.authService.logout().then(() => {
+      this.router.navigate(['/']); 
+    });
   }
 
   viewPDF(fileUrl: string) {

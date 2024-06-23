@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { HeaderComponent } from '../../header/header.component';
+import { SpinnerComponent } from '../../spinner/spinner.component';
 import { Router } from '@angular/router';
 import {
   FormBuilder,
@@ -31,6 +33,7 @@ interface RegisterData {
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     AngularFirestoreModule,
+    HeaderComponent, SpinnerComponent
   ],
   templateUrl: './register.component.html',
 })

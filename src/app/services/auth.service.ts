@@ -13,7 +13,7 @@ export class AuthService {
 
   constructor(
     private afAuth: AngularFireAuth,
-    private localStorageService: LocalStorageService,
+    private localStorageService: LocalStorageService
   ) {
     this.user$ = this.afAuth.authState.pipe(
       tap((user) => {
@@ -30,7 +30,7 @@ export class AuthService {
           const storedUser = this.localStorageService.getItem('user');
           return storedUser ? of(JSON.parse(storedUser)) : of(null);
         }
-      }),
+      })
     );
   }
 
@@ -47,7 +47,7 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('user');
+    localStorage.removeItem('user'); 
     return this.afAuth.signOut();
   }
 

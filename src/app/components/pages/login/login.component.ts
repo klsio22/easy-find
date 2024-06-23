@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { HeaderComponent } from '../../header/header.component';
+import { SpinnerComponent } from '../../spinner/spinner.component';
 import {
   FormBuilder,
   FormGroup,
@@ -14,7 +16,7 @@ import { AuthService } from '../../../services/auth.service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,HeaderComponent, SpinnerComponent],
   templateUrl: './login.component.html',
 })
 export class LoginComponent {

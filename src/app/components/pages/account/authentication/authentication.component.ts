@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { HeaderComponent } from '../../../header/header.component';
+import { SpinnerComponent } from '../../../spinner/spinner.component';
 import { PenComponent } from '../../../../../assets/pen/pen.component';
 import { BackPreviousScreenComponent } from '../../../back-previous-screen/back-previous-screen.component';
 import { ModalEditionComponent } from './modal-edition/modal-edition.component';
@@ -14,6 +16,8 @@ import { FormsModule } from '@angular/forms';
     ModalEditionComponent,
     CommonModule,
     FormsModule,
+    HeaderComponent, 
+    SpinnerComponent
   ],
   templateUrl: './authentication.component.html',
 })
