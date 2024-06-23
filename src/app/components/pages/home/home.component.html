@@ -12,7 +12,9 @@
           <ul>
             <li *ngFor="let book of books" class="mt-4 flex flex-row items-center justify-between">
               <a (click)="viewPDF(book.FileUrl)">{{ book.FileName }}</a>
-              <i class="ph ph-trash">teste</i>
+              <button (click)="removeFile(book)">
+                <i class="ph ph-trash"></i>
+              </button>
             </li>
           </ul>
         </div>

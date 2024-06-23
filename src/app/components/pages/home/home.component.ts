@@ -3,12 +3,12 @@ import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from '../../header/header.component';
 import { SpinnerComponent } from '../../spinner/spinner.component';
 import { Observable } from 'rxjs';
-import { UploadService, BookData } from '../../../services/upload.service';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ChatPdfService } from '../../../services/chat-pdf.service';
+import { BookData, FileService } from '../../../services/file.service';
 
 @Component({
   selector: 'app-home',
@@ -35,7 +35,7 @@ export class HomeComponent implements OnInit {
   bookUrlSector: string = '';
 
   constructor(
-    private uploadService: UploadService,
+    private fileService: FileService,
     private authService: AuthService,
     private sanitizer: DomSanitizer,
     private chatPdfService: ChatPdfService,
@@ -44,7 +44,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.authService.getCurrentUser().subscribe((user) => {
       if (user) {
-        this.books$ = this.uploadService.getFiles(user.uid);
+        this.books$ = this.fileService.getFiles(user.uid);
       }
     });
   }
@@ -61,14 +61,14 @@ export class HomeComponent implements OnInit {
       this.isLoading = true;
       this.authService.getCurrentUser().subscribe((user) => {
         if (user) {
-          this.downloadURL$ = this.uploadService.uploadFile(
+          this.downloadURL$ = this.fileService.uploadFile(
             this.selectedFile as File,
             user.uid,
           );
           this.downloadURL$.subscribe((url) => {
             this.isLoading = false;
             this.selectedFileUrl = url;
-            this.uploadService.addFileData(user.uid, {
+            this.fileService.addFileData(user.uid, {
               FileName: this.selectedFile?.name ?? '',
               FileUrl: url,
             });
@@ -76,6 +76,19 @@ export class HomeComponent implements OnInit {
         }
       });
     }
+  }
+
+  removeFile(file: BookData) {
+    this.authService.getCurrentUser().subscribe((user) => {
+      if (user) {
+        this.fileService.removeFileData(user.uid, file.FileName).then(() => {
+          console.log('File removed successfully');
+          this.books$ = this.fileService.getFiles(user.uid);
+        }).catch((error) => {
+          console.error('Error removing file:', error);
+        });
+      }
+    });
   }
 
   viewPDF(fileUrl: string) {

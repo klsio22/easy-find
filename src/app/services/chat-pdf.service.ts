@@ -67,13 +67,4 @@ export class ChatPdfService {
       catchError(this.handleError)
     );
   }
-
-  deletePdf(sources: string[]): Observable<any> {
-    const endpoint = `${this.apiUrl}/sources/delete`;
-    return this.http.post(
-      endpoint,
-      { sources },
-      { headers: this.getHeaders() },
-    );
-  }
 }
