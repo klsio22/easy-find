@@ -13,7 +13,12 @@ import { ChatPdfService } from '../../../services/chat-pdf.service';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, HeaderComponent, SpinnerComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    HeaderComponent,
+    SpinnerComponent,
+  ],
   providers: [],
   templateUrl: './home.component.html',
 })
@@ -76,7 +81,6 @@ export class HomeComponent implements OnInit {
   viewPDF(fileUrl: string) {
     this.FileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fileUrl);
     this.bookUrlSector = fileUrl;
-    console.log('Link do livro:', this.bookUrlSector);
   }
 
   askQuestion() {

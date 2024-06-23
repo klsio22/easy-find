@@ -5,14 +5,14 @@
 
 <div class="hidden lg:flex w-full h-full">
   <div class="bg-gray-800 text-white w-1/6 p-4 flex flex-col justify-start items-center bg-neon-carrot min-w-80">
-    <ul class="menu p-4 w-80 min-h-full text-white bg-neon-carrot flex flex-col items-center">
+    <ul class="menu p-4 w-80 text-white bg-neon-carrot flex flex-col items-center h-screen">
       <div *ngIf="books$ | async as books" class="mt-4">
         <h3 class="text-lg font-bold text-center">Lista de livros enviados</h3>
-
         <div>
           <ul>
-            <li *ngFor="let book of books" class="mt-4">
+            <li *ngFor="let book of books" class="mt-4 flex flex-row items-center justify-between">
               <a (click)="viewPDF(book.FileUrl)">{{ book.FileName }}</a>
+              <i class="ph ph-trash">teste</i>
             </li>
           </ul>
         </div>
