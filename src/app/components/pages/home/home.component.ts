@@ -1,4 +1,3 @@
-// home.component.ts
 import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from '../../header/header.component';
 import { SpinnerComponent } from '../../spinner/spinner.component';
@@ -13,26 +12,23 @@ import { BookData, FileService } from '../../../services/file.service';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    HeaderComponent,
-    SpinnerComponent,
-  ],
+  imports: [CommonModule, FormsModule, HeaderComponent, SpinnerComponent],
   providers: [],
   templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {
-  selectedFile: File | null = null;
   downloadURL$: Observable<string> | null = null;
-  isLoading: boolean = false;
   books$: Observable<BookData[]> | null = null;
-  selectedFileUrl: string | null = null;
   FileUrl: SafeResourceUrl | null = null;
+  selectedFile: File | null = null;
+  selectedFileUrl: string | null = null;
+  isLoading: boolean = false;
   sourceId: string = '';
   chatResponse: string = '';
   question: string = '';
   bookUrlSector: string = '';
+  showSuccessMessage: boolean = false;
+  showRemoveSuccessMessage: boolean = false;
 
   constructor(
     private fileService: FileService,
@@ -53,6 +49,8 @@ export class HomeComponent implements OnInit {
     const file: File = event.target.files[0];
     if (file) {
       this.selectedFile = file;
+      this.showSuccessMessage = false;
+      this.showRemoveSuccessMessage = false;
     }
   }
 
@@ -72,6 +70,8 @@ export class HomeComponent implements OnInit {
               FileName: this.selectedFile?.name ?? '',
               FileUrl: url,
             });
+            this.showSuccessMessage = true;
+            this.showRemoveSuccessMessage = false;
           });
         }
       });
@@ -79,14 +79,21 @@ export class HomeComponent implements OnInit {
   }
 
   removeFile(file: BookData) {
+    this.isLoading = true;
     this.authService.getCurrentUser().subscribe((user) => {
       if (user) {
-        this.fileService.removeFileData(user.uid, file.FileName).then(() => {
-          console.log('File removed successfully');
-          this.books$ = this.fileService.getFiles(user.uid);
-        }).catch((error) => {
-          console.error('Error removing file:', error);
-        });
+        this.fileService
+          .removeFileData(user.uid, file.FileName)
+          .then(() => {
+            this.isLoading = false;
+            this.books$ = this.fileService.getFiles(user.uid);
+            this.showSuccessMessage = false;
+            this.showRemoveSuccessMessage = true;
+            console.log('File removed successfully');
+          })
+          .catch((error) => {
+            console.error('Error removing file:', error);
+          });
       }
     });
   }
@@ -94,6 +101,8 @@ export class HomeComponent implements OnInit {
   viewPDF(fileUrl: string) {
     this.FileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(fileUrl);
     this.bookUrlSector = fileUrl;
+    this.showSuccessMessage = false;
+    this.showRemoveSuccessMessage = false;
   }
 
   askQuestion() {
@@ -102,8 +111,6 @@ export class HomeComponent implements OnInit {
       next: (response) => {
         this.sourceId = response.sourceId;
         console.log('PDF adicionado com Source ID:', this.sourceId);
-
-        // Faça a chamada chatWithPdf apenas após a resposta bem-sucedida de addPdfByUrl
         this.chatPdfService
           .chatWithPdf(this.sourceId, messages, true, false)
           .subscribe({

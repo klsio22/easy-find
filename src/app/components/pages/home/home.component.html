@@ -30,12 +30,17 @@
       </div>
 
       <div *ngIf="downloadURL$ | async as downloadURL" class="mt-12 font-semibold text-lg text-yellow-100 text-center">
-        <p class="mb-4 text-green-900 ">livro carregado com sucesso</p>
-        <a [href]="downloadURL" target="_blank">Ver livro no navegador</a>
+        <div *ngIf="showSuccessMessage">
+          <p class="mb-4 text-green-900">Livro carregado com sucesso</p>
+          <a [href]="downloadURL" target="_blank">Ver livro no navegador</a>
+        </div>
+      </div>
+
+      <div *ngIf="showRemoveSuccessMessage" class="mt-12 font-semibold text-lg text-yellow-100 text-center">
+        <p class="mb-4 text-green-800">Livro removido com sucesso</p>
       </div>
     </ul>
   </div>
-
 
   <div class="bg-white flex-1 flex flex-col p-4">
     <div class="flex justify-between items-center pb-4">
@@ -165,9 +170,11 @@
         <span class="loading loading-dots loading-lg"></span>
       </div>
 
-      <div *ngIf="downloadURL$ | async as downloadURL" class="mt-12 font-semibold text-lg text-yellow-100 text-center">
-        <p class="mb-4 text-green-900 ">livro carregado com sucesso</p>
-        <a [href]="downloadURL" target="_blank">Ver livro no navegador</a>
+      <div *ngIf="downloadURL$ | async as downloadURL">
+        <div *ngIf="showSuccessMessage" class="mt-12 font-semibold text-lg text-yellow-100 text-center">
+          <p class="mb-4 text-green-900">Livro carregado com sucesso</p>
+          <a [href]="downloadURL" target="_blank">Ver livro no navegador</a>
+        </div>
       </div>
     </ul>
   </div>
