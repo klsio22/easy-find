@@ -62,6 +62,10 @@ Para obter mais ajuda sobre o Angular CLI, use `ng help` ou consulte a [Visão G
 
 ## Notion
 
+### Link do projeto em produção
+
+Link: [Easy Find](https://easy-find-books.vercel.app/)
+
 ### Checklist
 Confira o checklist do projeto EasyFind no Notion: [Checklist](https://indigo-hisser-408.notion.site/Project-easy-find-9ceba5246d674405a4b1b9d4cb3b1525?pvs=4)
 
