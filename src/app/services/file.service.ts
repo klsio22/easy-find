@@ -17,7 +17,7 @@ interface UserData<T> {
 @Injectable({
   providedIn: 'root',
 })
-export class UploadService {
+export class FileService {
   constructor(
     private storage: AngularFireStorage,
     private firestore: AngularFirestore,
@@ -67,7 +67,7 @@ export class UploadService {
         }
 
         const existingBookIndex = books.findIndex(
-          (book) => book.FileName === fileData.FileName
+          (book) => book.FileName === fileData.FileName,
         );
 
         if (existingBookIndex !== -1) {
@@ -90,6 +90,35 @@ export class UploadService {
       throw error;
     }
   }
+
+  public async removeFileData(userId: string, fileName: string): Promise<void> {
+    if (!fileName) {
+      throw new Error('Invalid file name');
+    }
+
+    const userDocRef = this.firestore.collection('users').doc(userId).ref;
+
+    try {
+      await this.firestore.firestore.runTransaction(async (transaction) => {
+        const userDoc = await transaction.get(userDocRef);
+        let books: BookData[] = [];
+
+        if (userDoc.exists) {
+          const userData = userDoc.data() as UserData<BookData>;
+          books = Array.isArray(userData.books) ? [...userData.books] : [];
+        }
+
+        const updatedBooks = books.filter((book) => book.FileName !== fileName);
+
+        transaction.set(userDocRef, { books: updatedBooks }, { merge: true });
+        console.log('File data removed successfully');
+      });
+    } catch (error) {
+      console.error('Error removing file data: ', error);
+      throw error;
+    }
+  }
+
   getFiles(userId: string): Observable<any> {
     return this.firestore
       .collection('users')

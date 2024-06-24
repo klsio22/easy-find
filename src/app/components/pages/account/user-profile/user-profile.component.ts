@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { HeaderComponent } from '../../../header/header.component';
+import { SpinnerComponent } from '../../../spinner/spinner.component';
 import { FormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';
 import { Router } from '@angular/router';
@@ -9,7 +11,7 @@ import { FirebaseService } from '../../../../services/firebase.service';
 @Component({
   selector: 'app-user-profile',
   standalone: true,
-  imports: [FormsModule, NgIf, BackPreviousScreenComponent],
+  imports: [FormsModule, NgIf, BackPreviousScreenComponent,HeaderComponent, SpinnerComponent],
   templateUrl: './user-profile.component.html',
 })
 export class UserProfileComponent implements OnInit {

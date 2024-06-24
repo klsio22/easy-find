@@ -15,6 +15,7 @@ import { initializeApp } from 'firebase/app';
 import { provideFirebaseApp } from '@angular/fire/app';
 import { provideDatabase } from '@angular/fire/database';
 import { getDatabase } from 'firebase/database';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -27,6 +28,7 @@ export const appConfig: ApplicationConfig = {
     provideDatabase(() => getDatabase()),
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage()),
+    provideHttpClient(withFetch()),
 
     importProvidersFrom(
       AngularFireModule.initializeApp(environment.firebaseConfig),

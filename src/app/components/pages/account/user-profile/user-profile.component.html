@@ -1,5 +1,8 @@
-<!-- user-profile.component.html -->
-<div *ngIf="!editMode" class="flex flex-col items-center rounded-lg shadow-md max-w-md mx-auto h-screen">
+<div class="bg-slate-300 w-full">
+  <app-header></app-header>
+</div>
+<app-spinner></app-spinner><!-- user-profile.component.html -->
+<div *ngIf="!editMode" class="flex flex-col items-center rounded-lg shadow-md max-w-md mx-auto h-screen mt-24">
   <div class="bg-neon-carrot shadow-md p-6 h-full text-white w-full">
     <app-back-previous-screen [link]="'/account'" [title]="'Meus dados pessoais'"></app-back-previous-screen>
     <div class="flex items-center justify-between h-4/5 mb-4 flex-col py-6">
@@ -48,6 +51,7 @@
           Salvar
         </button>
       </div>
+      
     </div>
   </div>
 </div>

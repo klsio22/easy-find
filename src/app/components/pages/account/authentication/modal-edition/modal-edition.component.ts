@@ -34,7 +34,6 @@ export class ModalEditionComponent implements OnInit {
         password: this.form.get('password')?.value,
       };
       localStorage.setItem('userData', JSON.stringify(userData));
-      console.log('Dados salvos:', userData);
       this.closeModal();
     } else {
       this.errorMessage = 'Por favor, preencha todos os campos.';
@@ -45,7 +44,6 @@ export class ModalEditionComponent implements OnInit {
       'modal_change_email',
     ) as HTMLDialogElement;
     if (modal) {
-      console.log('Salvando dados...');
       modal.close();
       this.form.reset();
       this.errorMessage = '';
@@ -53,7 +51,6 @@ export class ModalEditionComponent implements OnInit {
   }
 
   onBackdropClick(event: MouseEvent | TouchEvent) {
-    // Verifique se o clique foi feito no fundo do modal
     if ((event.target as Element).classList.contains('modal')) {
       this.closeModal();
     }

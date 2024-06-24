@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { HeaderComponent } from '../../header/header.component';
+import { SpinnerComponent } from '../../spinner/spinner.component';
 import { Router } from '@angular/router';
 import {
   FormBuilder,
@@ -31,6 +33,7 @@ interface RegisterData {
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     AngularFirestoreModule,
+    HeaderComponent, SpinnerComponent
   ],
   templateUrl: './register.component.html',
 })
@@ -100,7 +103,6 @@ export class RegisterComponent {
      try {
        const provider = new GoogleAuthProvider();
        const result = await signInWithPopup(this.afAuth, provider);
-       console.log('Usuário logado:', result.user);
        this.router.navigate(['/home']);
      } catch (error) {
        console.error('Erro ao fazer login:', error);

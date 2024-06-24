@@ -1,6 +1,14 @@
+<div class="bg-slate-300 w-full">
+  <app-header></app-header>
+</div>
+<app-spinner></app-spinner>
 <div class="flex justify-center items-center h-screen">
   <div class="bg-neon-carrot p-8 rounded-md shadow-md w-full max-w-md flex h-full justify-center flex-col md:h-[85%]">
-    <h2 class="text-2xl font-bold mb-6 text-center text-white">Cadastre-se Agora!</h2>
+    <div class="flex justify-center items-center">
+      <img  width="90" height="62" src="https://res.cloudinary.com/dvqbwddan/image/upload/v1719174714/Atividade-10%20WEB3/jje68opbduefix4xrp5y.png">
+    </div>
+    <h2 class="text-2xl font-bold mb-6 text-center text-white">Crie sua conta!</h2>
+    <p class="text-justify justify-center mb-4">Crie sua conta e aproveito o Easy Find!</p>
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-4">
       <div>
         <label for="email" class="block font-medium mb-1 text-white opacity-0 text-[0]">E-mail</label>
