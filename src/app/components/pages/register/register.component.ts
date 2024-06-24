@@ -18,7 +18,6 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AuthService } from '../../../services/auth.service';
 import { Auth, GoogleAuthProvider, signInWithPopup } from '@angular/fire/auth';
 
-
 interface RegisterData {
   email: string;
   password: string;
@@ -33,7 +32,8 @@ interface RegisterData {
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     AngularFirestoreModule,
-    HeaderComponent, SpinnerComponent
+    HeaderComponent,
+    SpinnerComponent,
   ],
   templateUrl: './register.component.html',
 })
@@ -93,20 +93,15 @@ export class RegisterComponent {
     }
   }
 
-  private saveToStorage(data: RegisterData) {
-    localStorage.setItem('registerData', JSON.stringify(data));
-  }
-
-
   async loginWithGoogle() {
-    this.authService.login().then( async () => {
-     try {
-       const provider = new GoogleAuthProvider();
-       const result = await signInWithPopup(this.afAuth, provider);
-       this.router.navigate(['/home']);
-     } catch (error) {
-       console.error('Erro ao fazer login:', error);
-     }
-   });
- }
+    this.authService.login().then(async () => {
+      try {
+        const provider = new GoogleAuthProvider();
+        await signInWithPopup(this.afAuth, provider);
+        this.router.navigate(['/home']);
+      } catch (error) {
+        console.error('Erro ao fazer login:', error);
+      }
+    });
+  }
 }
