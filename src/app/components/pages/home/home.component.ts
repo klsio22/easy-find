@@ -22,7 +22,8 @@ export class HomeComponent implements OnInit {
   FileUrl: SafeResourceUrl | null = null;
   selectedFile: File | null = null;
   selectedFileUrl: string | null = null;
-  isLoading: boolean = false;
+  isLoadingBooks: boolean = false;
+  isLoadingChat: boolean = false;
   sourceId: string = '';
   chatResponse: string = '';
   question: string = '';
@@ -56,7 +57,7 @@ export class HomeComponent implements OnInit {
 
   onUpload() {
     if (this.selectedFile) {
-      this.isLoading = true;
+      this.isLoadingBooks = true;
       this.authService.getCurrentUser().subscribe((user) => {
         if (user) {
           this.downloadURL$ = this.fileService.uploadFile(
@@ -64,7 +65,7 @@ export class HomeComponent implements OnInit {
             user.uid,
           );
           this.downloadURL$.subscribe((url) => {
-            this.isLoading = false;
+            this.isLoadingBooks = false;
             this.selectedFileUrl = url;
             this.fileService.addFileData(user.uid, {
               FileName: this.selectedFile?.name ?? '',
@@ -79,13 +80,13 @@ export class HomeComponent implements OnInit {
   }
 
   removeFile(file: BookData) {
-    this.isLoading = true;
+    this.isLoadingBooks = true;
     this.authService.getCurrentUser().subscribe((user) => {
       if (user) {
         this.fileService
           .removeFileData(user.uid, file.FileName)
           .then(() => {
-            this.isLoading = false;
+            this.isLoadingBooks = false;
             this.books$ = this.fileService.getFiles(user.uid);
             this.showSuccessMessage = false;
             this.showRemoveSuccessMessage = true;
@@ -108,11 +109,13 @@ export class HomeComponent implements OnInit {
     const messages = [{ role: 'user', content: this.question }];
     this.chatPdfService.addPdfByUrl(this.bookUrlSector).subscribe({
       next: (response) => {
+        this.isLoadingChat = true;
         this.sourceId = response.sourceId;
         this.chatPdfService
           .chatWithPdf(this.sourceId, messages, true, false)
           .subscribe({
             next: (response) => {
+              this.isLoadingChat = false;
               this.chatResponse = response.content;
             },
             error: (error) => {
