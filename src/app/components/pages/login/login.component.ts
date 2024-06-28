@@ -51,7 +51,7 @@ export class LoginComponent {
         '',
         [
           Validators.required,
-          Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/),
+          Validators.pattern(/^.{6,}$/),
         ],
       ],
     });
