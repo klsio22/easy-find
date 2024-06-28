@@ -107,9 +107,9 @@ export class HomeComponent implements OnInit {
 
   askQuestion() {
     const messages = [{ role: 'user', content: this.question }];
+    this.isLoadingChat = true;
     this.chatPdfService.addPdfByUrl(this.bookUrlSector).subscribe({
       next: (response) => {
-        this.isLoadingChat = true;
         this.sourceId = response.sourceId;
         this.chatPdfService
           .chatWithPdf(this.sourceId, messages, true, false)
@@ -119,11 +119,13 @@ export class HomeComponent implements OnInit {
               this.chatResponse = response.content;
             },
             error: (error) => {
+              this.isLoadingChat = false;
               console.error('Erro ao fazer pergunta:', error);
             },
           });
       },
       error: (error) => {
+        this.isLoadingChat = false;
         console.error('Erro ao adicionar PDF:', error);
       },
     });

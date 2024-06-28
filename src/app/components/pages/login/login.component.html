@@ -5,20 +5,37 @@
 <div class="flex justify-center items-center h-screen">
   <div class="bg-neon-carrot p-8 rounded-md shadow-md w-full max-w-md flex h-full justify-center flex-col md:h-[85%]">
     <div class="flex justify-center items-center">
-      <img  width="90" height="62" src="https://res.cloudinary.com/dvqbwddan/image/upload/v1719174714/Atividade-10%20WEB3/jje68opbduefix4xrp5y.png" alt="Mão acenando">
+      <img width="90" height="62"
+        src="https://res.cloudinary.com/dvqbwddan/image/upload/v1719174714/Atividade-10%20WEB3/jje68opbduefix4xrp5y.png"
+        alt="Mão acenando">
     </div>
     <h2 class="text-2xl font-bold mb-6 text-center text-white">Bem-vindo de volta!</h2>
     <p class="text-justify mb-4">Escolha uma das opções de login e aproveite o Easy Find!</p>
     <form [formGroup]="loginForm" class="space-y-4 w-full">
-      <div class="">
-        <label for="email" class="block font-medium mb-1 opacity-0 text-[0]">Email</label>
+      <div>
+        <label for="email" class="block font-medium mb-1 text-white">Email</label>
         <input type="email" id="email" formControlName="email" placeholder="E-mail"
           class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring focus:ring-[#A28DFF]">
+        <div
+          *ngIf="loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)"
+          class="text-stone">
+          <div *ngIf="loginForm.get('email')?.errors?.['required']">O e-mail é obrigatório.</div>
+          <div *ngIf="loginForm.get('email')?.errors?.['email']">E-mail inválido.</div>
+          <div *ngIf="loginForm.get('email')?.errors?.['pattern']">Formato de e-mail inválido.</div>
+        </div>
       </div>
-      <div class="">
-        <label for="password" class="block font-medium mb-1 opacity-0 text-[0]">password</label>
+      <div>
+        <label for="password" class="block font-medium mb-1 text-white">Senha</label>
         <input type="password" id="password" formControlName="password" placeholder="Senha"
-          class=" w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring focus:ring-[#A28DFF]">
+          class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring focus:ring-[#A28DFF]">
+        <div
+          *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)"
+          class="text-stone">
+          <div *ngIf="loginForm.get('password')?.errors?.['required']">A senha é obrigatória.</div>
+          <div *ngIf="loginForm.get('password')?.errors?.['pattern']">A senha deve ter no mínimo 6 caracteres e conter
+            letras
+            e números.</div>
+        </div>
       </div>
       <button type="submit"
         class="w-full bg-[#A28DFF] text-white font-bold py-2 px-4 rounded-md hover:bg-[#8F72E8] focus:outline-none focus:ring focus:ring-[#A28DFF]"
@@ -26,8 +43,8 @@
     </form>
     <div class="mt-4 text-center text-white">
       <p class="text-sm">Esqueceu sua senha?</p>
-      <p class="text-sm mt-2">Não tem uma conta?  <a href="/register" class="text-[#6C1EBB] font-medium hover:underline">Cadastrar-se</a>
-      </p>
+      <p class="text-sm mt-2">Não tem uma conta? <a href="/register"
+          class="text-[#6C1EBB] font-medium hover:underline">Cadastrar-se</a></p>
     </div>
     <div class="mt-4 text-center flex justify-center">
       <button

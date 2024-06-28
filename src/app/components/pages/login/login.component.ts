@@ -11,11 +11,17 @@ import {
 import { Auth, GoogleAuthProvider, signInWithPopup } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, HeaderComponent, SpinnerComponent],
+  imports: [
+    ReactiveFormsModule,
+    HeaderComponent,
+    SpinnerComponent,
+    CommonModule,
+  ],
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
@@ -31,8 +37,23 @@ export class LoginComponent {
     this.afAuth = afAuth;
     this.authService = authService;
     this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.email,
+          Validators.pattern(
+            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+          ),
+        ],
+      ],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/),
+        ],
+      ],
     });
   }
   async loginWithEmail() {
