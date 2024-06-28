@@ -9,7 +9,6 @@ export const loggedInGuard: CanActivateFn = (): Observable<boolean> => {
   const router = inject(Router);
   const spinnerService = inject(SpinnerService);
 
-  spinnerService.show();
 
   return authService.isLoggedIn().pipe(
     tap((loggedIn) => {

@@ -1,8 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Pipe } from '@angular/core';
 import { HeaderComponent } from '../../../header/header.component';
 import { SpinnerComponent } from '../../../spinner/spinner.component';
 import { FormsModule } from '@angular/forms';
-import { NgIf } from '@angular/common';
+import { NgIf, UpperCasePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { BackPreviousScreenComponent } from '../../../back-previous-screen/back-previous-screen.component';
 import firebase from 'firebase/compat/app';
@@ -11,7 +11,14 @@ import { FirebaseService } from '../../../../services/firebase.service';
 @Component({
   selector: 'app-user-profile',
   standalone: true,
-  imports: [FormsModule, NgIf, BackPreviousScreenComponent,HeaderComponent, SpinnerComponent],
+  imports: [
+    FormsModule,
+    NgIf,
+    BackPreviousScreenComponent,
+    HeaderComponent,
+    SpinnerComponent,
+    UpperCasePipe
+  ],
   templateUrl: './user-profile.component.html',
 })
 export class UserProfileComponent implements OnInit {
@@ -21,7 +28,10 @@ export class UserProfileComponent implements OnInit {
   @Input() editMode: boolean = false;
   currentUser: firebase.User | null = null;
 
-  constructor(private router: Router, private firebaseService: FirebaseService) {}
+  constructor(
+    private router: Router,
+    private firebaseService: FirebaseService,
+  ) {}
 
   ngOnInit() {
     this.firebaseService.getCurrentUser().subscribe((user) => {
@@ -53,9 +63,11 @@ export class UserProfileComponent implements OnInit {
         phone: this.userPhone,
         bio: this.userBio,
       };
-      this.firebaseService.saveUserProfile(this.currentUser.uid, userData).subscribe(() => {
-        this.editMode = false;
-      });
+      this.firebaseService
+        .saveUserProfile(this.currentUser.uid, userData)
+        .subscribe(() => {
+          this.editMode = false;
+        });
     }
   }
 

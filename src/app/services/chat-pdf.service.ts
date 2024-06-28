@@ -44,10 +44,10 @@ export class ChatPdfService {
     const endpoint = `${this.apiUrl}/sources/add-file`;
     const formData: FormData = new FormData();
     formData.append('file', file, file.name);
-    const headers = new HttpHeaders({
-      'x-api-key': this.apiKey,
-    });
-    return this.http.post(endpoint, formData, { headers });
+
+    return this.http
+      .post(endpoint, formData, { headers: this.getHeaders() })
+      .pipe(catchError(this.handleError));
   }
 
   chatWithPdf(

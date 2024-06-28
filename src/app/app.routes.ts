@@ -10,31 +10,38 @@ import { authGuard } from './services/auth.guard';
 import { loggedInGuard } from './services/logged-in.guard';
 
 export const routes: Routes = [
-  { path: '', component: LoginComponent, canActivate: [loggedInGuard] },
   {
+    title: 'login',
+    path: '',
+    component: LoginComponent,
+    canActivate: [loggedInGuard],
+    pathMatch: 'full',
+  },
+  {
+    title: 'registrar',
     path: 'register',
     component: RegisterComponent,
     canActivate: [loggedInGuard],
   },
   {
+    title: 'home',
     path: 'home',
     component: HomeComponent,
     canActivate: [authGuard],
   },
   {
+    title: 'conta',
     path: 'account',
     component: AccountProfileComponent,
     canActivate: [authGuard],
-  },
-  {
-    path: 'authentication',
-    component: AuthenticationComponent,
-    canActivate: [authGuard],
-  },
-  {
-    path: 'profile',
-    component: UserProfileComponent,
-    canActivate: [authGuard],
+    children: [
+      {
+        title: 'autenticação',
+        path: 'authentication',
+        component: AuthenticationComponent,
+      },
+      { title: 'perfil', path: 'profile', component: UserProfileComponent },
+    ],
   },
   { path: '**', component: NotFoundPageComponent },
 ];

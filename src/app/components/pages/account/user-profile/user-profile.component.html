@@ -1,9 +1,6 @@
-<div class="bg-slate-300 w-full">
-  <app-header></app-header>
-</div>
 <app-spinner></app-spinner><!-- user-profile.component.html -->
-<div *ngIf="!editMode" class="flex flex-col items-center rounded-lg shadow-md max-w-md mx-auto h-screen mt-24">
-  <div class="bg-neon-carrot shadow-md p-6 h-full text-white w-full">
+<div *ngIf="!editMode" class="flex flex-col items-center shadow-md max-w-md mx-auto h-screen mt-24">
+  <div class="bg-neon-carrot shadow-md p-6 h-full text-white w-full rounded rounded-t-3xl">
     <app-back-previous-screen [link]="'/account'" [title]="'Meus dados pessoais'"></app-back-previous-screen>
     <div class="flex items-center justify-between h-4/5 mb-4 flex-col py-6">
       <div class="flex items-center flex-col h-full w-full">
@@ -13,7 +10,7 @@
                 d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Zm97.76,66.41a79.66,79.66,0,0,0-36.06-28.75,48,48,0,1,0-59.4,0,79.66,79.66,0,0,0-36.06,28.75,88,88,0,1,1,131.52,0Z">
               </path>
             </svg>
-          <h2 class="text-2xl font-bold text-center">{{ userName }}</h2>
+          <h2 class="text-2xl font-bold text-center">{{ userName | uppercase }}</h2>
         </div>
 
         <div class="flex flex-col h-full w-full">
@@ -33,7 +30,7 @@
 </div>
 
 <div *ngIf="editMode" class="flex flex-col items-center rounded-lg shadow-md max-w-md mx-auto h-screen">
-  <div class="bg-neon-carrot shadow-md p-6 h-full w-full">
+  <div class="bg-neon-carrot shadow-md p-6 h-full w-full mt-20">
     <app-back-previous-screen [link]="'/account'" [title]="'Meus dados pessoais'"></app-back-previous-screen>
     <div class="flex flex-col mt-4">
       <label for="username" class="text-gray-600 font-medium mb-2">Nome de Usuário:</label>
@@ -51,7 +48,6 @@
           Salvar
         </button>
       </div>
-      
     </div>
   </div>
 </div>

@@ -16,8 +16,8 @@ import { FormsModule } from '@angular/forms';
     ModalEditionComponent,
     CommonModule,
     FormsModule,
-    HeaderComponent, 
-    SpinnerComponent
+    HeaderComponent,
+    SpinnerComponent,
   ],
   templateUrl: './authentication.component.html',
 })
