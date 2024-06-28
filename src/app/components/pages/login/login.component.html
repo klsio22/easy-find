@@ -32,9 +32,7 @@
           *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)"
           class="text-stone">
           <div *ngIf="loginForm.get('password')?.errors?.['required']">A senha é obrigatória.</div>
-          <div *ngIf="loginForm.get('password')?.errors?.['pattern']">A senha deve ter no mínimo 6 caracteres e conter
-            letras
-            e números.</div>
+          <div *ngIf="loginForm.get('password')?.errors?.['pattern']">A senha deve ter no mínimo 6 caracteres.</div>
         </div>
       </div>
       <button type="submit"
